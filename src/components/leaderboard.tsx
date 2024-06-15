@@ -1,8 +1,12 @@
 import localFont from "next/font/local";
 import Image from "next/image";
 
-const kreadonRegular = localFont({
-  src: "../../public/fonts/Kreadon-Regular.ttf",
+const kreadonDemi = localFont({
+  src: "../../public/fonts/Kreadon-Demi.ttf",
+});
+
+const kreadonBold = localFont({
+  src: "../../public/fonts/Kreadon-Bold.ttf",
 });
 
 const leaderboardData = [
@@ -28,7 +32,7 @@ const leaderboardData = [
   },
   {
     rank: 3,
-    user: "@jhv",
+    user: "@jhve",
     memberSince: "05.22.2024",
     casts: 5321,
     recasts: 5321,
@@ -111,74 +115,82 @@ const leaderboardData = [
 export default function Leaderboard() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-white p-4">
-      <div className="w-full max-w-4xl">
-        <div className="flex">
-          <Image
-            src="/Vector.png"
-            alt="logo"
-            width={50}
-            height={40}
-            style={{ height: "60px" }}
-          />
-          <h1 className="text-4xl font-bold mb-8">LEADERBOARD</h1>
+      <div className="w-full max-w-7xl">
+        <div className="flex space-x-4 mb-8 justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <Image
+              src="/Vector.png"
+              alt="logo"
+              width={50}
+              height={40}
+              style={{ height: "50px" }}
+            />
+            <h1 className="text-4xl font-bold text-[#FEFAE0]">LEADERBOARD</h1>
+          </div>
+
+          <button
+            className={`bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold ${kreadonBold.className} text-sm max-h-[35px]`}
+          >
+            Connect
+          </button>
         </div>
         <div className="overflow-x-auto bg-black  shadow-md">
           <table
-            className={`min-w-full ${kreadonRegular.className} font-semibold text-sm`}
+            className={`min-w-full ${kreadonDemi.className} font-semibold text-sm`}
           >
             <thead className="text-black">
               <tr className="bg-green-600">
-                <th className="py-2 px-4 border-b border-gray-900 border-r">
+                <th className="py-8 px-4 border-b border-gray-900 border-r">
                   Rank
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900  border-r">
+                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   User
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900  border-r">
+                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Member Since
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900  border-r">
+                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Casts
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900  border-r">
+                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Recasts
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900  border-r">
+                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Likes
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900  border-r">
+                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Replies
                 </th>
-                <th className="py-2 px-4 border-b border-gray-900 ">
+                <th className="py-8 px-4 border-b border-gray-900 ">
                   Top Casts
                 </th>
               </tr>
             </thead>
-            <tbody className={kreadonRegular.className}>
+            <tbody className={kreadonDemi.className}>
               {leaderboardData.map((entry, index) => (
                 <tr key={index} className="">
-                  <td className="py-2 px-4 border-r border-gray-900  text-center">
+                  <td className="py-8 px-10 border-r border-gray-900  text-center">
                     {entry.rank}
                   </td>
-                  <td className="py-2 px-4 border-r border-gray-900  text-center">
+                  <td className="py-8 px-12 border-r border-gray-900  text-center">
                     {entry.user}
                   </td>
-                  <td className="py-2 px-4 border-r border-gray-900  text-center">
+                  <td className="py-8 px-12 border-r border-gray-900  text-center">
                     {entry.memberSince}
                   </td>
-                  <td className="py-2 px-4 border-r border-gray-900 text-center">
+                  <td className="py-8 px-10 border-r border-gray-900 text-center">
                     {entry.casts}
                   </td>
-                  <td className="py-2 px-4 border-r border-gray-900  text-center">
+                  <td className="py-8 px-10 border-r border-gray-900  text-center">
                     {entry.recasts}
                   </td>
-                  <td className="py-2 px-4 border-r border-gray-900  text-center">
+                  <td className="py-8 px-10 border-r border-gray-900  text-center">
                     {entry.likes}
                   </td>
-                  <td className="py-2 px-4 border-r border-gray-900  text-center">
+                  <td className="py-8 px-10 border-r border-gray-900  text-center">
                     {entry.replies}
                   </td>
-                  <td className="py-2 px-4 text-center">
+                  <td className="py-8 px-4 text-center">
                     <a href="#" className="text-blue-400 hover:underline">
                       {entry.topCasts}
                     </a>
@@ -188,8 +200,8 @@ export default function Leaderboard() {
             </tbody>
           </table>
         </div>
-        <div className={`flex justify-start mt-10 ${kreadonRegular.className}`}>
-          <button className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm">
+        <div className={`flex justify-start mt-10 ${kreadonBold.className}`}>
+          <button className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]">
             Create Frame
           </button>
         </div>
