@@ -114,7 +114,7 @@ const leaderboardData = [
 
 export default function Leaderboard() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-white p-4">
+    <div className="flex flex-col items-center justify-center max-h-screen text-white p-4">
       <div className="w-full max-w-7xl">
         <div className="flex space-x-4 mb-8 justify-between items-center">
           <div className="flex items-center space-x-4">
@@ -125,7 +125,7 @@ export default function Leaderboard() {
               height={40}
               style={{ height: "50px" }}
             />
-            <h1 className="text-4xl font-bold text-[#FEFAE0]">LEADERBOARD</h1>
+            <h1 className="text-4xl font-bold text-[#FEFAE0]">HIGHERBOARD</h1>
           </div>
 
           <button
@@ -134,7 +134,7 @@ export default function Leaderboard() {
             Connect
           </button>
         </div>
-        <div className="overflow-x-auto bg-black  shadow-md">
+        <div className="overflow-x-auto bg-black  shadow-md max-h-[calc(100vh-250px)]">
           <table
             className={`min-w-full ${kreadonDemi.className} font-semibold text-sm`}
           >
