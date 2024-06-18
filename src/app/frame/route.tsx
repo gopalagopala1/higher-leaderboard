@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { ImageResponse } from "next/og";
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   const reason = searchParams.get("reason") ?? "something";
