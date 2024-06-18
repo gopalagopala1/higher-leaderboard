@@ -12,7 +12,7 @@ const app = new Frog({
 
 app.frame("/", (c) => {
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/frame`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test`,
   });
 });
 
