@@ -114,7 +114,7 @@ const leaderboardData = [
 ];
 
 const onCreateFrame = () => {
-  const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame`;
+  const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/abc`;
   window.open(url, "_blank");
 };
 
