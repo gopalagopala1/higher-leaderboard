@@ -1,3 +1,4 @@
+"use client";
 import localFont from "next/font/local";
 import Image from "next/image";
 
@@ -112,6 +113,11 @@ const leaderboardData = [
   },
 ];
 
+const onCreateFrame = () => {
+  const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame`;
+  window.open(url, "_blank");
+};
+
 export default function Leaderboard() {
   return (
     <div className="flex flex-col items-center justify-center max-h-screen text-white p-4">
@@ -201,7 +207,10 @@ export default function Leaderboard() {
           </table>
         </div>
         <div className={`flex justify-start mt-10 ${kreadonBold.className}`}>
-          <button className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]">
+          <button
+            className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]"
+            onClick={onCreateFrame}
+          >
             Create Frame
           </button>
         </div>
