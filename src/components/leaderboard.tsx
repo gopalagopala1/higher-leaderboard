@@ -190,9 +190,6 @@ export default function Leaderboard() {
                   User
                 </th>
                 <th className="py-8 px-4 border-b border-gray-900  border-r">
-                  Member Since
-                </th>
-                <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Casts
                 </th>
                 <th className="py-8 px-4 border-b border-gray-900  border-r">
@@ -225,9 +222,6 @@ export default function Leaderboard() {
                       </div>
                       <div>{entry.user}</div>
                     </div>
-                  </td>
-                  <td className="py-8 px-12 border-r border-gray-900  text-center">
-                    {entry.memberSince}
                   </td>
                   <td className="py-8 px-10 border-r border-gray-900 text-center">
                     {entry.casts}
