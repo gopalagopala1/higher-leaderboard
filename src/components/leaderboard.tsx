@@ -4,6 +4,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaCaretLeft } from "react-icons/fa";
 import { FaCaretRight } from "react-icons/fa";
+import {
+  AuthKitProvider,
+  SignInButton,
+  StatusAPIResponse,
+} from "@farcaster/auth-kit";
+import "@farcaster/auth-kit/styles.css";
+import CustomSignInButton from "./sign-in";
 
 const kreadonDemi = localFont({
   src: "../../public/fonts/Kreadon-Demi.ttf",
@@ -128,11 +135,6 @@ const leaderboardData: LeaderboardEntry[] = [
 ];
 
 export default function Leaderboard() {
-  const onCreateFrame = () => {
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/abc`;
-    window.open(url, "_blank");
-  };
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
   const [displayData, setDisplayData] = useState<LeaderboardEntry[]>([]);
@@ -156,115 +158,133 @@ export default function Leaderboard() {
     setDisplayData(currentPosts);
   }, [currentPage, postsPerPage]);
 
-  return (
-    <div className="flex flex-col items-center justify-center max-h-screen text-white p-4">
-      <div className="w-full max-w-7xl">
-        <div className="flex space-x-4 mb-8 justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <Image
-              src="/Vector.png"
-              alt="logo"
-              width={50}
-              height={40}
-              style={{ height: "50px" }}
-            />
-            <h1 className="text-4xl font-bold text-[#FEFAE0]">HIGHERBOARD</h1>
-          </div>
+  const config = {
+    // For a production app, replace this with an Optimism Mainnet
+    // RPC URL from a provider like Alchemy or Infura.
+    rpcUrl: "https://mainnet.optimism.io",
+    domain: "example.com",
+    siweUri: "https://example.com/login",
+  };
 
-          <button
-            className={`bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold ${kreadonBold.className} text-sm max-h-[35px]`}
-          >
-            Connect
-          </button>
-        </div>
-        <div className="overflow-x-auto bg-black  shadow-md max-h-[calc(100vh-250px)]">
-          <table
-            className={`min-w-full ${kreadonDemi.className} font-semibold text-sm`}
-          >
-            <thead className="text-black">
-              <tr className="bg-green-600">
-                <th className="py-8 px-4 border-b border-gray-900 border-r">
-                  Rank
-                </th>
-                <th className="py-8 px-4 border-b border-gray-900  border-r">
-                  User
-                </th>
-                <th className="py-8 px-4 border-b border-gray-900  border-r">
-                  Casts
-                </th>
-                <th className="py-8 px-4 border-b border-gray-900  border-r">
-                  Recasts
-                </th>
-                <th className="py-8 px-4 border-b border-gray-900  border-r">
-                  Likes
-                </th>
-                <th className="py-8 px-4 border-b border-gray-900  border-r">
-                  Replies
-                </th>
-              </tr>
-            </thead>
-            <tbody className={kreadonDemi.className}>
-              {displayData.map((entry, index) => (
-                <tr key={index} className="">
-                  <td className="py-8 px-10 border-r border-gray-900  text-center">
-                    {entry.rank}
-                  </td>
-                  <td className="py-8 px-12 border-r border-gray-900  text-center">
-                    <div className="flex items-center space-x-2">
-                      <div>
-                        <Image
-                          src={`https://avatars.dicebear.com/api/initials/${entry.user}.svg`}
-                          alt={entry.user}
-                          width={30}
-                          height={30}
-                          className="rounded-full"
-                        />
-                      </div>
-                      <div>{entry.user}</div>
-                    </div>
-                  </td>
-                  <td className="py-8 px-10 border-r border-gray-900 text-center">
-                    {entry.casts}
-                  </td>
-                  <td className="py-8 px-10 border-r border-gray-900  text-center">
-                    {entry.recasts}
-                  </td>
-                  <td className="py-8 px-10 border-r border-gray-900  text-center">
-                    {entry.likes}
-                  </td>
-                  <td className="py-8 px-10 border-r border-gray-900  text-center">
-                    {entry.replies}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div
-          className={`flex justify-between items-center mt-10 ${kreadonBold.className}`}
-        >
-          <button
-            className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]"
-            onClick={onCreateFrame}
-          >
-            Create Frame
-          </button>
-          <div
-            className={`flex items-center space-x-10 ${kreadonBold.className} text-[#FEFAE0]`}
-          >
-            <div className="flex items-center" onClick={() => paginate("prev")}>
-              <FaCaretLeft size={24} /> PREVIOUS
+  const onSignInSuccess = (res: StatusAPIResponse) => {
+    if (res.state === "completed") {
+      localStorage.setItem("userFid", JSON.stringify(res.fid));
+    }
+  };
+
+  const onSignOut = () => {
+    localStorage.removeItem("connectedUser");
+  };
+
+  return (
+    <AuthKitProvider config={config}>
+      <div className="flex flex-col items-center justify-center max-h-screen text-white p-4">
+        <div className="w-full">
+          <div className="flex space-x-4 mb-8 justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <Image
+                src="/Vector.png"
+                alt="logo"
+                width={50}
+                height={40}
+                style={{ height: "50px" }}
+              />
+              <h1 className="text-4xl font-bold text-[#FEFAE0]">HIGHERBOARD</h1>
             </div>
 
-            <div
-              className="flex items-center "
-              onClick={() => paginate("next")}
+            <div className="sign-in-button">
+              <SignInButton onSuccess={onSignInSuccess} onSignOut={onSignOut} />
+            </div>
+          </div>
+          <div className="overflow-x-auto bg-black  shadow-md min-h-[calc(100vh-380px)] max-h-[calc(100vh-380px)] min-w-[calc(100vw-450px)] m-auto">
+            <table
+              className={`min-w-full ${kreadonDemi.className} font-semibold text-sm`}
             >
-              NEXT <FaCaretRight size={24} />
+              <thead className="text-black">
+                <tr className="bg-green-600">
+                  <th className="py-8 px-4 border-b border-gray-900 border-r">
+                    Rank
+                  </th>
+                  <th className="py-8 px-4 border-b border-gray-900  border-r">
+                    User
+                  </th>
+                  <th className="py-8 px-4 border-b border-gray-900  border-r">
+                    Casts
+                  </th>
+                  <th className="py-8 px-4 border-b border-gray-900  border-r">
+                    Recasts
+                  </th>
+                  <th className="py-8 px-4 border-b border-gray-900  border-r">
+                    Likes
+                  </th>
+                  <th className="py-8 px-4 border-b border-gray-900  border-r">
+                    Replies
+                  </th>
+                </tr>
+              </thead>
+              <tbody className={kreadonDemi.className}>
+                {displayData.map((entry, index) => (
+                  <tr key={index} className="">
+                    <td className="py-8 px-10 border-r border-gray-900  text-center">
+                      {entry.rank}
+                    </td>
+                    <td className="py-8 px-12 border-r border-gray-900  text-center">
+                      <div className="flex items-center space-x-2">
+                        <div>
+                          <Image
+                            src={`https://avatars.dicebear.com/api/initials/${entry.user}.svg`}
+                            alt={entry.user}
+                            width={30}
+                            height={30}
+                            className="rounded-full"
+                          />
+                        </div>
+                        <div>{entry.user}</div>
+                      </div>
+                    </td>
+                    <td className="py-8 px-10 border-r border-gray-900 text-center">
+                      {entry.casts}
+                    </td>
+                    <td className="py-8 px-10 border-r border-gray-900  text-center">
+                      {entry.recasts}
+                    </td>
+                    <td className="py-8 px-10 border-r border-gray-900  text-center">
+                      {entry.likes}
+                    </td>
+                    <td className="py-8 px-10 border-r border-gray-900  text-center">
+                      {entry.replies}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div
+            className={`flex justify-between items-center mt-10 ${kreadonBold.className}`}
+          >
+            <button className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]">
+              Create Frame
+            </button>
+            <div
+              className={`flex items-center space-x-10 ${kreadonBold.className} text-[#FEFAE0]`}
+            >
+              <div
+                className="flex items-center"
+                onClick={() => paginate("prev")}
+              >
+                <FaCaretLeft size={24} /> PREVIOUS
+              </div>
+
+              <div
+                className="flex items-center "
+                onClick={() => paginate("next")}
+              >
+                NEXT <FaCaretRight size={24} />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </AuthKitProvider>
   );
 }

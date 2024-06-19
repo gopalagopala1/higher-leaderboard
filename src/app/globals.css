@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Kreadon-Bold';
+  src: url('/fonts/Kreadon-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -31,3 +38,23 @@ body {
     text-wrap: balance;
   }
 }
+
+.sign-in-button ._1n3pr301 {
+  background-color: green;
+  max-height: 35px;
+  display: flex;
+  align-items: center !important;
+  justify-content: center;
+  font-family: 'Kreadon-Bold';
+  text-transform: uppercase;
+  color: black;
+  font-size: medium;
+  border-radius: 0% !important;
+}
+
+.sign-in-button ._1n3pr301 svg{
+  height: 15px;
+  width: 16px;
+  fill: black
+}
+
