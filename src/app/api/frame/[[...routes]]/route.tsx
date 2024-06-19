@@ -7,7 +7,7 @@ import { serveStatic } from "frog/serve-static";
 
 const app = new Frog({
   assetsPath: "/",
-  basePath: "/api/abc",
+  basePath: "/api/frame",
 });
 
 app.frame("/", (c) => {
