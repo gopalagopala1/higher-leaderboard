@@ -24,8 +24,6 @@ type LeaderboardEntry = {
   topCasts: string;
 };
 
-type LeaderboardData = LeaderboardEntry[];
-
 const leaderboardData: LeaderboardEntry[] = [
   {
     rank: 1,
@@ -206,9 +204,6 @@ export default function Leaderboard() {
                 <th className="py-8 px-4 border-b border-gray-900  border-r">
                   Replies
                 </th>
-                <th className="py-8 px-4 border-b border-gray-900 ">
-                  Top Casts
-                </th>
               </tr>
             </thead>
             <tbody className={kreadonDemi.className}>
@@ -245,11 +240,6 @@ export default function Leaderboard() {
                   </td>
                   <td className="py-8 px-10 border-r border-gray-900  text-center">
                     {entry.replies}
-                  </td>
-                  <td className="py-8 px-4 text-center">
-                    <a href="#" className="text-blue-400 hover:underline">
-                      {entry.topCasts}
-                    </a>
                   </td>
                 </tr>
               ))}
