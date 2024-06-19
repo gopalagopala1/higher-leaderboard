@@ -1,6 +1,9 @@
 "use client";
 import localFont from "next/font/local";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { FaCaretLeft } from "react-icons/fa";
+import { FaCaretRight } from "react-icons/fa";
 
 const kreadonDemi = localFont({
   src: "../../public/fonts/Kreadon-Demi.ttf",
@@ -10,7 +13,20 @@ const kreadonBold = localFont({
   src: "../../public/fonts/Kreadon-Bold.ttf",
 });
 
-const leaderboardData = [
+type LeaderboardEntry = {
+  rank: number;
+  user: string;
+  memberSince: string;
+  casts: number;
+  recasts: number;
+  likes: number;
+  replies: number;
+  topCasts: string;
+};
+
+type LeaderboardData = LeaderboardEntry[];
+
+const leaderboardData: LeaderboardEntry[] = [
   {
     rank: 1,
     user: "@v",
@@ -113,12 +129,35 @@ const leaderboardData = [
   },
 ];
 
-const onCreateFrame = () => {
-  const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/abc`;
-  window.open(url, "_blank");
-};
-
 export default function Leaderboard() {
+  const onCreateFrame = () => {
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/abc`;
+    window.open(url, "_blank");
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5);
+  const [displayData, setDisplayData] = useState<LeaderboardEntry[]>([]);
+
+  const paginate = (action: "prev" | "next") => {
+    if (action === "prev" && currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = leaderboardData.slice(
+      indexOfFirstPost,
+      indexOfLastPost
+    );
+
+    setDisplayData(currentPosts);
+  }, [currentPage, postsPerPage]);
+
   return (
     <div className="flex flex-col items-center justify-center max-h-screen text-white p-4">
       <div className="w-full max-w-7xl">
@@ -173,13 +212,24 @@ export default function Leaderboard() {
               </tr>
             </thead>
             <tbody className={kreadonDemi.className}>
-              {leaderboardData.map((entry, index) => (
+              {displayData.map((entry, index) => (
                 <tr key={index} className="">
                   <td className="py-8 px-10 border-r border-gray-900  text-center">
                     {entry.rank}
                   </td>
                   <td className="py-8 px-12 border-r border-gray-900  text-center">
-                    {entry.user}
+                    <div className="flex items-center space-x-2">
+                      <div>
+                        <Image
+                          src={`https://avatars.dicebear.com/api/initials/${entry.user}.svg`}
+                          alt={entry.user}
+                          width={30}
+                          height={30}
+                          className="rounded-full"
+                        />
+                      </div>
+                      <div>{entry.user}</div>
+                    </div>
                   </td>
                   <td className="py-8 px-12 border-r border-gray-900  text-center">
                     {entry.memberSince}
@@ -206,13 +256,29 @@ export default function Leaderboard() {
             </tbody>
           </table>
         </div>
-        <div className={`flex justify-start mt-10 ${kreadonBold.className}`}>
+        <div
+          className={`flex justify-between items-center mt-10 ${kreadonBold.className}`}
+        >
           <button
             className="bg-green-600 text-black py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]"
             onClick={onCreateFrame}
           >
             Create Frame
           </button>
+          <div
+            className={`flex items-center space-x-10 ${kreadonBold.className} text-[#FEFAE0]`}
+          >
+            <div className="flex items-center" onClick={() => paginate("prev")}>
+              <FaCaretLeft size={24} /> PREVIOUS
+            </div>
+
+            <div
+              className="flex items-center "
+              onClick={() => paginate("next")}
+            >
+              NEXT <FaCaretRight size={24} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
