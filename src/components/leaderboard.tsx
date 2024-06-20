@@ -160,6 +160,23 @@ export default function Leaderboard() {
     localStorage.removeItem("connectedUser");
   };
 
+  const signedInUser = {
+    rank: 11,
+    user: "@signedInUser",
+    memberSince: "06.20.2024",
+    casts: 980,
+    recasts: 980,
+    likes: 45,
+    replies: 18,
+    total_engagement: 2384,
+    engagement_score: 9823,
+  };
+
+  const navigateToUserProfile = (user: UserData) => {
+    const navUrl = `https://warpcast.com/${user.username}`;
+    window.open(navUrl, "_blank");
+  };
+
   return (
     <AuthKitProvider config={config}>
       <div className=" text-white max-h-screen p-4 md:text-xs lg:text-base">
@@ -182,7 +199,7 @@ export default function Leaderboard() {
         <div
           className={`grid grid-cols-1 md:grid-cols-12 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
         >
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6">
             Rank
           </div>
           <div className="col-span-1 md:col-span-3 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
@@ -246,7 +263,10 @@ export default function Leaderboard() {
                       </span>
                     </div>
                     <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                      <div className="flex items-center space-x-2 justify-center md:justify-start">
+                      <div
+                        className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
+                        onClick={() => navigateToUserProfile(userData)}
+                      >
                         <div className="md:ml-4">
                           <img
                             src={userData.pfp_url}
@@ -279,6 +299,30 @@ export default function Leaderboard() {
                   </div>
                 );
               })}
+
+              <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
+                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  #{signedInUser.rank}
+                </div>
+                <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  {signedInUser.user}
+                </div>
+                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  {signedInUser.recasts}
+                </div>
+                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  {signedInUser.likes}
+                </div>
+                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  {signedInUser.replies}
+                </div>
+                <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  {signedInUser.total_engagement}
+                </div>
+                <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  {signedInUser.engagement_score}
+                </div>
+              </div>
             </>
           )}
         </div>
