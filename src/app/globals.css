@@ -77,3 +77,18 @@ body {
   fill: black
 }
 
+
+.sign-in-button ._1n3pr302 {
+  --tw-bg-opacity: 1;
+  background-color: #0C8B38;
+  max-height: 35px;
+  display: flex;
+  align-items: center !important;
+  justify-content: center;
+  font-family: 'Kreadon-Bold';
+  text-transform: uppercase;
+  color: #FEFAE0;
+  font-size: medium;
+  border-radius: 0% !important;
+  border: none
+}
