@@ -242,7 +242,7 @@ export default function Leaderboard() {
                     key={index}
                     className="grid grid-cols-1 md:grid-cols-12 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
                   >
-                    <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       {item.rank === 1 ? (
                         ""
                       ) : item.rank === 2 ? (
@@ -262,7 +262,7 @@ export default function Leaderboard() {
                           : ""}
                       </span>
                     </div>
-                    <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       <div
                         className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                         onClick={() => navigateToUserProfile(userData)}
@@ -271,8 +271,8 @@ export default function Leaderboard() {
                           <img
                             src={userData.pfp_url}
                             alt={"pfp"}
-                            width={24}
-                            height={24}
+                            width={20}
+                            height={20}
                             className="rounded-full max-w-6 max-h-6"
                           />
                         </div>
@@ -281,19 +281,19 @@ export default function Leaderboard() {
                       </div>
                     </div>
 
-                    <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       {item.count_likes}
                     </div>
-                    <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       {item.count_recasts}
                     </div>
-                    <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       {item.count_replies}
                     </div>
-                    <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       {item.total_engagement}
                     </div>
-                    <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       {item.Engagement_Score.toFixed(2)}
                     </div>
                   </div>
