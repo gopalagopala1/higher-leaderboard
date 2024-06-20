@@ -3,6 +3,7 @@ import {
   AuthKitProvider,
   SignInButton,
   StatusAPIResponse,
+  useProfile,
 } from "@farcaster/auth-kit";
 import "@farcaster/auth-kit/styles.css";
 import localFont from "next/font/local";
@@ -67,6 +68,8 @@ export default function Leaderboard() {
   const [displayData, setDisplayData] = useState<Rank[]>([]);
   const [LeadData, setLeadData] = useState<Rank[]>([]);
   const [users, setUsers] = useState<UserData[]>([]);
+  const { isAuthenticated } = useProfile();
+
   const paginate = (action: "prev" | "next") => {
     if (action === "prev" && currentPage !== 1) {
       setCurrentPage(currentPage - 1);
@@ -282,7 +285,10 @@ export default function Leaderboard() {
         <div
           className={`flex justify-between items-center mt-10 ${kreadonBold.className}`}
         >
-          <button className="bg-[#0C8B38] text-[#FEFAE0] py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]">
+          <button
+            disabled={!isAuthenticated}
+            className="bg-[#0C8B38] text-[#FEFAE0] py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]"
+          >
             Create Frame
           </button>
           <div
