@@ -9,7 +9,6 @@ import "@farcaster/auth-kit/styles.css";
 import localFont from "next/font/local";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 const kreadonDemi = localFont({
   src: "../../public/fonts/Kreadon-Demi.ttf",
@@ -66,17 +65,9 @@ export default function Leaderboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
   const [displayData, setDisplayData] = useState<Rank[]>([]);
-  const [LeadData, setLeadData] = useState<Rank[]>([]);
+  const [leadData, setLeadData] = useState<Rank[]>([]);
   const [users, setUsers] = useState<UserData[]>([]);
   const { isAuthenticated } = useProfile();
-
-  const paginate = (action: "prev" | "next") => {
-    if (action === "prev" && currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    } else {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   useMemo(() => {
     const fetchLeaderBoard = async () => {
@@ -93,9 +84,9 @@ export default function Leaderboard() {
   useEffect(() => {
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = LeadData.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = leadData.slice(indexOfFirstPost, indexOfLastPost);
 
-    if (LeadData.length === 0) {
+    if (leadData.length === 0) {
       console.error("Data array is empty");
       return;
     }
@@ -140,7 +131,7 @@ export default function Leaderboard() {
     fetchUsers();
 
     setDisplayData(rankedData);
-  }, [currentPage, postsPerPage, LeadData]);
+  }, [currentPage, postsPerPage, leadData]);
 
   const config = {
     // For a production app, replace this with an Optimism Mainnet
@@ -226,9 +217,9 @@ export default function Leaderboard() {
           </div>
         </div>
         <div
-          className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-400px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
+          className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-300px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
         >
-          {users.length === 0 || LeadData.length === 0 ? (
+          {users.length === 0 || leadData.length === 0 ? (
             <p className="text-[#FEFAE0] text-2xl font-medium p-6 text-center w-full">
               Loading...
             </p>
@@ -325,33 +316,6 @@ export default function Leaderboard() {
               </div>
             </>
           )}
-        </div>
-        <div
-          className={`flex justify-between items-center mt-10 ${kreadonBold.className}`}
-        >
-          <button
-            disabled={!isAuthenticated}
-            className="bg-[#0C8B38] text-[#FEFAE0] py-2 px-4 uppercase hover:bg-green-700 font-bold text-sm max-h-[35px]"
-          >
-            Create Frame
-          </button>
-          <div
-            className={`flex items-center space-x-10 ${kreadonBold.className} text-[#FEFAE0]`}
-          >
-            <div
-              className="flex items-center cursor-pointer"
-              onClick={() => paginate("prev")}
-            >
-              <FaCaretLeft size={24} /> PREVIOUS
-            </div>
-
-            <div
-              className="flex items-center cursor-pointer"
-              onClick={() => paginate("next")}
-            >
-              NEXT <FaCaretRight size={24} />
-            </div>
-          </div>
         </div>
       </div>
     </AuthKitProvider>
