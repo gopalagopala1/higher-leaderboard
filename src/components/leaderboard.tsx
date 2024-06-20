@@ -271,8 +271,8 @@ export default function Leaderboard() {
                           <img
                             src={userData.pfp_url}
                             alt={"pfp"}
-                            width={20}
-                            height={20}
+                            width={18}
+                            height={18}
                             className="rounded-full max-w-6 max-h-6"
                           />
                         </div>
