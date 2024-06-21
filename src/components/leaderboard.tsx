@@ -67,7 +67,9 @@ export default function Leaderboard() {
   const [displayData, setDisplayData] = useState<Rank[]>([]);
   const [leadData, setLeadData] = useState<Rank[]>([]);
   const [users, setUsers] = useState<UserData[]>([]);
-  const { isAuthenticated } = useProfile();
+  const [loggedInUserRank, setLoggedInUserRank] = useState<Rank>();
+  const [loggedInUserData, setLoggedInUserData] = useState<Partial<UserData>>();
+  const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
 
   useMemo(() => {
     const fetchLeaderBoard = async () => {
@@ -81,6 +83,25 @@ export default function Leaderboard() {
     };
     fetchLeaderBoard();
   }, []);
+
+  useMemo(() => {
+    const statsForFid = async () => {
+      const response = await fetch(
+        `/api/fetchRankForFid?fid=${loggedInUserData?.fid}`,
+        {
+          method: "GET",
+        }
+      );
+
+      const userData = await response.json();
+      setLoggedInUserRank((prevRank) => userData[0]);
+    };
+
+    if (isAuthenticated) {
+      statsForFid();
+    }
+  }, [isAuthenticated, loggedInUserData]);
+
   useEffect(() => {
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -122,9 +143,7 @@ export default function Leaderboard() {
         },
         body: JSON.stringify({ fids }),
       });
-      console.log(response);
       const data: UserData[] = await response.json();
-      console.log(data);
       setUsers(data);
     };
 
@@ -143,12 +162,24 @@ export default function Leaderboard() {
 
   const onSignInSuccess = (res: StatusAPIResponse) => {
     if (res.state === "completed") {
-      localStorage.setItem("userFid", JSON.stringify(res.fid));
+      setAuthenticated(true);
+      const userData: Partial<UserData> = {
+        fid: res.fid as number,
+        custody_address: res.custody as `0x${string}`,
+        username: res.username as string,
+        display_name: res.displayName as string,
+        pfp_url: res.pfpUrl as string,
+        follower_count: 0,
+        following_count: 0,
+        verifications: [],
+      };
+
+      setLoggedInUserData(userData);
     }
   };
 
   const onSignOut = () => {
-    localStorage.removeItem("connectedUser");
+    setAuthenticated(false);
   };
 
   const signedInUser = {
@@ -163,7 +194,7 @@ export default function Leaderboard() {
     engagement_score: 9823,
   };
 
-  const navigateToUserProfile = (user: UserData) => {
+  const navigateToUserProfile = (username: string) => {
     const navUrl = `https://warpcast.com/${user.username}`;
     window.open(navUrl, "_blank");
   };
@@ -256,7 +287,7 @@ export default function Leaderboard() {
                     <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
                       <div
                         className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
-                        onClick={() => navigateToUserProfile(userData)}
+                        onClick={() => navigateToUserProfile(userData.username)}
                       >
                         <div className="md:ml-4">
                           <img
@@ -290,30 +321,56 @@ export default function Leaderboard() {
                   </div>
                 );
               })}
+              {isAuthenticated && loggedInUserRank && (
+                <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    #{loggedInUserRank.rank}
+                  </div>
+                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    <div
+                      className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
+                      onClick={() =>
+                        navigateToUserProfile(
+                          loggedInUserData?.username as string
+                        )
+                      }
+                    >
+                      <div className="md:ml-4">
+                        <img
+                          src={loggedInUserData?.pfp_url}
+                          alt={"pfp"}
+                          width={18}
+                          height={18}
+                          className="rounded-full max-w-6 max-h-6"
+                        />
+                      </div>
 
-              <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
-                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  #{signedInUser.rank}
+                      <div>@{loggedInUserData?.username as string}</div>
+                    </div>
+                  </div>
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    {loggedInUserRank.count_recasts}
+                  </div>
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    {loggedInUserRank.count_likes}
+                  </div>
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    {loggedInUserRank.count_replies}
+                  </div>
+                  <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    {loggedInUserRank.total_engagement}
+                  </div>
+                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                    {loggedInUserRank.Engagement_Score.toFixed(2)}
+                  </div>
                 </div>
-                <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  {signedInUser.user}
+              )}
+
+              {isAuthenticated && !loggedInUserRank && (
+                <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-6">
+                  You do not have a rank
                 </div>
-                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  {signedInUser.recasts}
-                </div>
-                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  {signedInUser.likes}
-                </div>
-                <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  {signedInUser.replies}
-                </div>
-                <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  {signedInUser.total_engagement}
-                </div>
-                <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
-                  {signedInUser.engagement_score}
-                </div>
-              </div>
+              )}
             </>
           )}
         </div>
