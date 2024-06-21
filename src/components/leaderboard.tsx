@@ -371,7 +371,7 @@ export default function Leaderboard() {
               )}
 
               {isAuthenticated && !loggedInUserRank && (
-                <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-6">
+                <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-6 text-[#FEFAE0]">
                   You do not have a rank
                 </div>
               )}
