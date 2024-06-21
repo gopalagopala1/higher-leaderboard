@@ -7,7 +7,7 @@ import {
 import "@farcaster/auth-kit/styles.css";
 import localFont from "next/font/local";
 import Image from "next/image";
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState, useMemo, useRef } from "react";
 import { FaShareFromSquare } from "react-icons/fa6";
 
 const kreadonDemi = localFont({
@@ -71,6 +71,8 @@ export default function Leaderboard() {
   const [loggedInUserData, setLoggedInUserData] = useState<Partial<UserData>>();
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
   const [fid, setFid] = useState<number>();
+  const [loadMore, setLoadMore] = useState<boolean>();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useMemo(() => {
     const fetchLeaderBoard = async () => {
@@ -106,6 +108,63 @@ export default function Leaderboard() {
       statsForFid();
     }
   }, [isAuthenticated, fid]);
+
+  const fetchMoreData = async () => {
+    if (
+      containerRef.current &&
+      containerRef.current.scrollHeight - containerRef.current.scrollTop ===
+        containerRef.current.clientHeight
+    ) {
+      setLoadMore(displayData.length < leadData.length);
+      const fids = leadData
+        .slice(displayData.length, displayData.length + 10)
+        .map((item) => item.fid);
+
+      if (fids.length === 0) {
+        console.error("No valid fids found in the current posts");
+        return;
+      }
+
+      const fetchUsers = async () => {
+        const response = await fetch(`/api/fetchUsers`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ fids }),
+        });
+        const data: UserData[] = await response.json();
+        setUsers((prevData) => [...prevData, ...data]);
+      };
+
+      await fetchUsers();
+
+      setDisplayData((prevLeadData) => {
+        const newSliceEnd = prevLeadData.length + 10;
+
+        const newData = leadData.slice(prevLeadData.length, newSliceEnd);
+        newData.forEach((item, index) => {
+          item.rank = prevLeadData.length + index + 1;
+        });
+        const newDisplayData = [...prevLeadData, ...newData];
+
+        return newDisplayData;
+      });
+
+      setLoadMore(false);
+    }
+  };
+
+  useEffect(() => {
+    if (containerRef.current)
+      containerRef.current.addEventListener("scroll", fetchMoreData);
+
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener("scroll", fetchMoreData);
+      }
+    };
+  });
 
   useEffect(() => {
     const indexOfLastPost = currentPage * postsPerPage;
@@ -253,78 +312,100 @@ export default function Leaderboard() {
         </div>
         <div
           className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-300px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
+          ref={containerRef}
         >
-          {users.length === 0 || leadData.length === 0 ? (
+          {(users.length === 0 || leadData.length) === 0 ||
+          users.length !== displayData.length ? (
             <p className="text-[#FEFAE0] text-2xl font-medium p-6 text-center w-full">
               Loading...
             </p>
           ) : (
             <>
-              {displayData.map((item, index) => {
-                const userData: UserData = users[index];
+              {displayData &&
+                displayData.length > 0 &&
+                displayData.map((item, index) => {
+                  const userData: UserData = users[index];
 
-                return (
-                  <div
-                    key={index}
-                    className="grid grid-cols-1 md:grid-cols-12 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
-                  >
-                    <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      {item.rank === 1 ? (
-                        ""
-                      ) : item.rank === 2 ? (
-                        ""
-                      ) : item.rank === 3 ? (
-                        ""
-                      ) : (
-                        <span>#{item.rank} </span>
-                      )}
-                      <span className="text-[#0C8B38]">
-                        {item.rank === 1
-                          ? "↑"
-                          : item.rank === 2
-                          ? "↑↑"
-                          : item.rank === 3
-                          ? "↑↑↑"
-                          : ""}
-                      </span>
-                    </div>
-                    <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      <div
-                        className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
-                        onClick={() => navigateToUserProfile(userData.username)}
-                      >
-                        <div className="md:ml-4">
-                          <img
-                            src={userData.pfp_url}
-                            alt={"pfp"}
-                            width={18}
-                            height={18}
-                            className="rounded-full max-w-6 max-h-6"
-                          />
+                  return (
+                    <div
+                      key={index}
+                      className="grid grid-cols-1 md:grid-cols-12 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
+                    >
+                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        {item.rank === 1 ? (
+                          ""
+                        ) : item.rank === 2 ? (
+                          ""
+                        ) : item.rank === 3 ? (
+                          ""
+                        ) : (
+                          <span>#{item.rank} </span>
+                        )}
+                        <span className="text-[#0C8B38]">
+                          {item.rank === 1
+                            ? "↑"
+                            : item.rank === 2
+                            ? "↑↑"
+                            : item.rank === 3
+                            ? "↑↑↑"
+                            : ""}
+                        </span>
+                      </div>
+                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        <div
+                          className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
+                          onClick={() =>
+                            navigateToUserProfile(userData.username)
+                          }
+                        >
+                          <div className="md:ml-4">
+                            <img
+                              src={userData?.pfp_url}
+                              alt={"pfp"}
+                              width={18}
+                              height={18}
+                              className="rounded-full max-w-6 max-h-6"
+                            />
+                          </div>
+
+                          <div>@{userData?.username}</div>
                         </div>
+                      </div>
 
-                        <div>@{userData.username}</div>
+                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        {item.count_likes}
+                      </div>
+                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        {item.count_recasts}
+                      </div>
+                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        {item.count_replies}
+                      </div>
+                      <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        {item.total_engagement}
+                      </div>
+                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                        {item.Engagement_Score.toFixed(2)}
                       </div>
                     </div>
-
-                    <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      {item.count_likes}
-                    </div>
-                    <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      {item.count_recasts}
-                    </div>
-                    <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      {item.count_replies}
-                    </div>
-                    <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      {item.total_engagement}
-                    </div>
-                    <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
-                      {item.Engagement_Score.toFixed(2)}
-                    </div>
+                  );
+                })}
+              {loadMore && (
+                <div className="py-7 border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
+                  <div className="spinner">
+                    <div className="bounce" />
+                    <div className="bounce" />
+                    <div className="bounce" />
                   </div>
-                );
-              })}
+                </div>
+              )}
+              {displayData.length >= leadData.length &&
+                displayData.length !== 0 && (
+                  <p className=" bg-[#1E1E1E] py-7 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
+                    You&apos;ve reached the end
+                  </p>
+                )}
+
               {isAuthenticated && loggedInUserRank && (
                 <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
                   <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
