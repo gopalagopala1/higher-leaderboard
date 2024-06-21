@@ -3,12 +3,12 @@ import {
   AuthKitProvider,
   SignInButton,
   StatusAPIResponse,
-  useProfile,
 } from "@farcaster/auth-kit";
 import "@farcaster/auth-kit/styles.css";
 import localFont from "next/font/local";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import { FaShareFromSquare } from "react-icons/fa6";
 
 const kreadonDemi = localFont({
   src: "../../public/fonts/Kreadon-Demi.ttf",
@@ -70,6 +70,7 @@ export default function Leaderboard() {
   const [loggedInUserRank, setLoggedInUserRank] = useState<Rank>();
   const [loggedInUserData, setLoggedInUserData] = useState<Partial<UserData>>();
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+  const [fid, setFid] = useState<number>();
 
   useMemo(() => {
     const fetchLeaderBoard = async () => {
@@ -78,7 +79,7 @@ export default function Leaderboard() {
       });
 
       const data: Rank[] = await response.json();
-
+      console.log("data: ", data);
       setLeadData(data);
     };
     fetchLeaderBoard();
@@ -86,21 +87,25 @@ export default function Leaderboard() {
 
   useMemo(() => {
     const statsForFid = async () => {
-      const response = await fetch(
-        `/api/fetchRankForFid?fid=${loggedInUserData?.fid}`,
-        {
+      let userRank: Rank[];
+      try {
+        const response = await fetch(`/api/fetchRankForFid?fid=${fid}`, {
           method: "GET",
-        }
-      );
+        });
+        // calculate rank of the user
+        userRank = await response.json();
+        console.log("response: ", userRank);
+      } catch (error) {
+        console.error("error occurred while fetching user rank", error);
+      }
 
-      const userData = await response.json();
-      setLoggedInUserRank((prevRank) => userData[0]);
+      setLoggedInUserRank((prevRank) => userRank?.[0]);
     };
 
     if (isAuthenticated) {
       statsForFid();
     }
-  }, [isAuthenticated, loggedInUserData]);
+  }, [isAuthenticated, fid]);
 
   useEffect(() => {
     const indexOfLastPost = currentPage * postsPerPage;
@@ -160,7 +165,8 @@ export default function Leaderboard() {
     siweUri: "https://example.com/login",
   };
 
-  const onSignInSuccess = (res: StatusAPIResponse) => {
+  const onSignInSuccess = useCallback((res: StatusAPIResponse) => {
+    console.log("here", res);
     if (res.state === "completed") {
       setAuthenticated(true);
       const userData: Partial<UserData> = {
@@ -173,29 +179,17 @@ export default function Leaderboard() {
         following_count: 0,
         verifications: [],
       };
-
+      setFid(res.fid);
       setLoggedInUserData(userData);
     }
-  };
+  }, []);
 
   const onSignOut = () => {
     setAuthenticated(false);
   };
 
-  const signedInUser = {
-    rank: 11,
-    user: "@signedInUser",
-    memberSince: "06.20.2024",
-    casts: 980,
-    recasts: 980,
-    likes: 45,
-    replies: 18,
-    total_engagement: 2384,
-    engagement_score: 9823,
-  };
-
   const navigateToUserProfile = (username: string) => {
-    const navUrl = `https://warpcast.com/${user.username}`;
+    const navUrl = `https://warpcast.com/${username}`;
     window.open(navUrl, "_blank");
   };
 
@@ -214,8 +208,18 @@ export default function Leaderboard() {
             <h1 className="text-4xl font-bold text-[#FEFAE0]">HIGHERBOARD</h1>
           </div>
 
-          <div className="sign-in-button">
-            <SignInButton onSuccess={onSignInSuccess} onSignOut={onSignOut} />
+          <div className="flex space-x-4">
+            {isAuthenticated && loggedInUserData && (
+              <button className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center">
+                <div className="mr-1">
+                  <FaShareFromSquare color="white" size={16} />
+                </div>
+                Share Your Rank
+              </button>
+            )}
+            <div className="sign-in-button" id="sign-in">
+              <SignInButton onSuccess={onSignInSuccess} onSignOut={onSignOut} />
+            </div>
           </div>
         </div>
         <div
@@ -322,7 +326,7 @@ export default function Leaderboard() {
                 );
               })}
               {isAuthenticated && loggedInUserRank && (
-                <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
+                <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
                   <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
                     #{loggedInUserRank.rank}
                   </div>

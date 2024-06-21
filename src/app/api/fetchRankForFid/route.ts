@@ -5,7 +5,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const fid = req.nextUrl.searchParams.get("fid");
     console.log("fid: ", fid);
     const response = await fetch(
-      `https://api.dune.com/api/v1/query/3843243/results?fid=${fid}`,
+      `https://api.dune.com/api/v1/query/3850728/results?fid=${fid}`,
       {
         headers: {
           "X-Dune-API-Key": process.env.DUNE_API_KEY!,
