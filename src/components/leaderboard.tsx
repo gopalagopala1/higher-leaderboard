@@ -14,10 +14,6 @@ const kreadonDemi = localFont({
   src: "../../public/fonts/Kreadon-Demi.ttf",
 });
 
-const kreadonBold = localFont({
-  src: "../../public/fonts/Kreadon-Bold.ttf",
-});
-
 interface Rank {
   Engagement_Score: number;
   count_likes: number;
@@ -63,7 +59,6 @@ export interface UserData {
 
 export default function Leaderboard() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
   const [displayData, setDisplayData] = useState<Rank[]>([]);
   const [leadData, setLeadData] = useState<Rank[]>([]);
   const [users, setUsers] = useState<UserData[]>([]);
@@ -71,23 +66,70 @@ export default function Leaderboard() {
   const [loggedInUserData, setLoggedInUserData] = useState<Partial<UserData>>();
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
   const [fid, setFid] = useState<number>();
-  const [loadMore, setLoadMore] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useMemo(() => {
+  const fetchUsers = async (fids: number[]) => {
+    const response = await fetch(`/api/fetchUsers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fids }),
+    });
+    const data: UserData[] = await response.json();
+    setUsers((prevUsers) => [...prevUsers, ...data]);
+  };
+
+  useEffect(() => {
     const fetchLeaderBoard = async () => {
+      setLoading(true);
       const response = await fetch(`/api/fetchLeaderBoard`, {
         method: "GET",
       });
 
       const data: Rank[] = await response.json();
-      console.log("data: ", data);
       setLeadData(data);
+      setLoading(false);
     };
-    fetchLeaderBoard();
-  }, []);
 
-  useMemo(() => {
+    if (leadData.length === 0) {
+      fetchLeaderBoard();
+    }
+  }, [leadData.length]);
+
+  useEffect(() => {
+    setLoading(true);
+    if (leadData.length === 0) {
+      console.error("Data array is empty");
+      return;
+    }
+
+    const ranksPerPage = parseInt(process.env.NEXT_POST_PER_PAGE || "15");
+
+    const indexOfLastPost = currentPage * ranksPerPage;
+    const indexOfFirstPost = indexOfLastPost - ranksPerPage;
+    const currentRanks = leadData.slice(indexOfFirstPost, indexOfLastPost);
+
+    setDisplayData((prevRanks) => [...prevRanks, ...currentRanks]);
+
+    const fids = currentRanks
+      .filter(
+        (post): post is Rank =>
+          post !== null && typeof post === "object" && "fid" in post
+      )
+      .map((post) => post.fid);
+
+    if (fids.length === 0) {
+      console.error("No valid fids found in the current posts");
+      return;
+    }
+
+    fetchUsers(fids);
+    setLoading(false);
+  }, [leadData, currentPage]);
+
+  useEffect(() => {
     const statsForFid = async () => {
       let userRank: Rank[];
       try {
@@ -96,7 +138,6 @@ export default function Leaderboard() {
         });
         // calculate rank of the user
         userRank = await response.json();
-        console.log("response: ", userRank);
       } catch (error) {
         console.error("error occurred while fetching user rank", error);
       }
@@ -109,113 +150,6 @@ export default function Leaderboard() {
     }
   }, [isAuthenticated, fid]);
 
-  const fetchMoreData = async () => {
-    if (
-      containerRef.current &&
-      containerRef.current.scrollHeight - containerRef.current.scrollTop ===
-        containerRef.current.clientHeight
-    ) {
-      setLoadMore(displayData.length < leadData.length);
-      const fids = leadData
-        .slice(displayData.length, displayData.length + 10)
-        .map((item) => item.fid);
-
-      if (fids.length === 0) {
-        console.error("No valid fids found in the current posts");
-        return;
-      }
-
-      const fetchUsers = async () => {
-        const response = await fetch(`/api/fetchUsers`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ fids }),
-        });
-        const data: UserData[] = await response.json();
-        setUsers((prevData) => [...prevData, ...data]);
-      };
-
-      await fetchUsers();
-
-      setDisplayData((prevLeadData) => {
-        const newSliceEnd = prevLeadData.length + 10;
-
-        const newData = leadData.slice(prevLeadData.length, newSliceEnd);
-        newData.forEach((item, index) => {
-          item.rank = prevLeadData.length + index + 1;
-        });
-        const newDisplayData = [...prevLeadData, ...newData];
-
-        return newDisplayData;
-      });
-
-      setLoadMore(false);
-    }
-  };
-
-  useEffect(() => {
-    if (containerRef.current)
-      containerRef.current.addEventListener("scroll", fetchMoreData);
-
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.removeEventListener("scroll", fetchMoreData);
-      }
-    };
-  });
-
-  useEffect(() => {
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = leadData.slice(indexOfFirstPost, indexOfLastPost);
-
-    if (leadData.length === 0) {
-      console.error("Data array is empty");
-      return;
-    }
-
-    if (currentPosts.length === 0) {
-      console.error("No posts found for the current page");
-      return;
-    }
-
-    // Create a new array with ranks assigned based on the overall index
-    const rankedData = currentPosts.map((item, index) => {
-      const overallIndex = indexOfFirstPost + index;
-      return { ...item, rank: overallIndex + 1 };
-    });
-
-    const fids = rankedData
-      .filter(
-        (post): post is Rank =>
-          post !== null && typeof post === "object" && "fid" in post
-      )
-      .map((post) => post.fid);
-
-    if (fids.length === 0) {
-      console.error("No valid fids found in the current posts");
-      return;
-    }
-
-    const fetchUsers = async () => {
-      const response = await fetch(`/api/fetchUsers`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ fids }),
-      });
-      const data: UserData[] = await response.json();
-      setUsers(data);
-    };
-
-    fetchUsers();
-
-    setDisplayData(rankedData);
-  }, [currentPage, postsPerPage, leadData]);
-
   //TODO: update this
   const config = {
     // For a production app, replace this with an Optimism Mainnet
@@ -225,8 +159,12 @@ export default function Leaderboard() {
     siweUri: "https://example.com/login",
   };
 
+  /**
+   * useCallback is required because function is being passed to
+   * child component and will be called on every re-render if useCallback
+   * is not used
+   */
   const onSignInSuccess = useCallback((res: StatusAPIResponse) => {
-    console.log("here", res);
     if (res.state === "completed") {
       setAuthenticated(true);
       const userData: Partial<UserData> = {
@@ -244,14 +182,36 @@ export default function Leaderboard() {
     }
   }, []);
 
-  const onSignOut = () => {
+  const onSignOut = useCallback(() => {
     setAuthenticated(false);
-  };
+  }, []);
 
   const navigateToUserProfile = (username: string) => {
     const navUrl = `https://warpcast.com/${username}`;
     window.open(navUrl, "_blank");
   };
+
+  const handleScroll = () => {
+    if (
+      containerRef.current &&
+      containerRef.current.scrollTop + containerRef.current.clientHeight >=
+        containerRef.current.scrollHeight
+    ) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  });
 
   return (
     <AuthKitProvider config={config}>
@@ -315,8 +275,7 @@ export default function Leaderboard() {
           className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-300px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
           ref={containerRef}
         >
-          {(users.length === 0 || leadData.length) === 0 ||
-          users.length !== displayData.length ? (
+          {users.length === 0 || leadData.length === 0 ? (
             <p className="text-[#FEFAE0] text-2xl font-medium p-6 text-center w-full">
               Loading...
             </p>
@@ -360,7 +319,8 @@ export default function Leaderboard() {
                           }
                         >
                           <div className="md:ml-4">
-                            <img
+                            <Image
+                              loader={() => userData?.pfp_url}
                               src={userData?.pfp_url}
                               alt={"pfp"}
                               width={18}
@@ -391,7 +351,7 @@ export default function Leaderboard() {
                     </div>
                   );
                 })}
-              {loadMore && (
+              {loading && (
                 <div className="py-7 border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
                   <div className="spinner">
                     <div className="bounce" />
@@ -422,8 +382,9 @@ export default function Leaderboard() {
                       }
                     >
                       <div className="md:ml-4">
-                        <img
-                          src={loggedInUserData?.pfp_url}
+                        <Image
+                          loader={() => loggedInUserData?.pfp_url || ""}
+                          src={loggedInUserData?.pfp_url || ""}
                           alt={"pfp"}
                           width={18}
                           height={18}
