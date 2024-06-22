@@ -216,6 +216,7 @@ export default function Leaderboard() {
     setDisplayData(rankedData);
   }, [currentPage, postsPerPage, leadData]);
 
+  //TODO: update this
   const config = {
     // For a production app, replace this with an Optimism Mainnet
     // RPC URL from a provider like Alchemy or Infura.
