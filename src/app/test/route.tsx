@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 //@ts-nocheck
 
 import { ImageResponse } from "next/og";
