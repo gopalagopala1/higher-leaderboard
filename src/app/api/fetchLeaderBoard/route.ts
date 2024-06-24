@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const response = await fetch(
-      `https://api.dune.com/api/v1/query/3852566/results?limit=500`,
+      `https://api.dune.com/api/v1/query/3852566/results?limit=1000`,
       {
         headers: {
           "X-Dune-API-Key": process.env.DUNE_API_KEY!,
