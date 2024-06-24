@@ -100,7 +100,9 @@ export default function Leaderboard() {
         console.error("error occurred while fetching user rank", error);
       }
 
-      localStorage.setItem("userRank", JSON.stringify(userRank!?.[0]));
+      document.cookie = `userRank=${
+        userRank!?.[0]
+      }; path=/; secure; samesite=strict;`;
       setLoggedInUserRank((prevRank) => userRank?.[0]);
     };
 
@@ -140,7 +142,7 @@ export default function Leaderboard() {
       setLoggedInUserData(userData);
 
       // store logged in user data in local storage to access it in frames
-      localStorage.setItem("user", JSON.stringify(userData));
+      document.cookie = `userData=${userData}; path=/; secure; samesite=strict;`;
     }
   }, []);
 
