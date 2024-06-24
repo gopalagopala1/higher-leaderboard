@@ -18,9 +18,7 @@ app.frame("/", async (c) => {
   console.log("query: ", userData);
 
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${JSON.stringify(
-      userData
-    )}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?username=${userData.username}&pfp_url=${userData.pfp_url}`,
   });
 });
 

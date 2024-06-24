@@ -7,9 +7,10 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   console.log("search params: ", searchParams);
 
-  const userString = searchParams.get("userData");
-  const userData = JSON.parse(userString ?? "");
-  console.log("userData: ", userData);
+  const username = searchParams.get("username");
+  const pfp_url = searchParams.get("pfp_url");
+  console.log("userData: ", username, pfp_url);
+  const userData = {};
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
   ).then((res) => res.arrayBuffer());
