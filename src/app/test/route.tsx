@@ -10,9 +10,18 @@ export async function GET(request: Request) {
   // const userRank: Rank = localStorage.getItem("userRank");
 
   const { searchParams } = new URL(request.url);
-  const hash = searchParams.get("userData");
 
-  const userData = getObjectByHash(hash);
+  const userData = {
+    username: searchParams.get("username"),
+    pfp_url: searchParams.get("pfp_url"),
+    count_likes: searchParams.get("likes"),
+    count_recasts: searchParams.get("recasts"),
+    count_replies: searchParams.get("replies"),
+    rank: searchParams.get("rank"),
+    Engagement_Score: searchParams.get("engagement_score"),
+  };
+
+  console.log("user data: ", userData);
 
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`

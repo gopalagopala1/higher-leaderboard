@@ -189,7 +189,7 @@ export default function Leaderboard() {
 
     const hash = generateObjectHash(userData);
 
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${hash}`;
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${loggedInUserData?.username}/${loggedInUserData?.pfp_url}/${loggedInUserRank?.count_likes}/${loggedInUserRank?.count_recasts}/${loggedInUserRank?.count_replies}/${loggedInUserRank?.rank}/${loggedInUserRank?.Engagement_Score}`;
     window.open(url, "_blank");
   };
 
