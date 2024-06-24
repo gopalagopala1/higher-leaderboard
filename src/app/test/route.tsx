@@ -93,7 +93,7 @@ export async function GET(request: Request) {
               <div
                 style={{ display: "flex", marginTop: "6px", color: "#FEFAE0" }}
               >
-                @{tokenId}
+                @{userData.username}
               </div>
               <div
                 style={{
