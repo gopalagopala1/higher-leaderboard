@@ -1,20 +1,45 @@
 //@ts-nocheck
 
-import { fetchData } from "@/utils/data";
 import { ImageResponse } from "next/og";
+import { Rank, UserData } from "../types/types";
 
 export async function GET(request: Request) {
-  // const { searchParams } = new URL(request.url);
+  // const userData: UserData = localStorage.getItem("userData");
+  // const userRank: Rank = localStorage.getItem("userRank");
 
-  const leaderboardData = fetchData();
+  const { searchParams } = new URL(request.url);
+  const tokenId = searchParams.get("fid");
 
-  // const imageData = await fetch(
-  //   `${process.env.NEXT_PUBLIC_SITE_URL}/images/background.png`
-  // ).then((res) => res.arrayBuffer());
+  const searchPa;
+  const dummyUserData = {
+    username: "lght.eth",
+    pfp_url:
+      "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/50014c99-3420-4bbf-b8d0-f0b40b6d0600/rectcrop3",
+  };
 
-  // const fontData = await fetch(
-  //   `${process.env.NEXT_PUBLIC_SITE_URL}/fonts/Kreadon-Demi.ttf`
-  // ).then((res) => res.arrayBuffer());
+  const dummyUserRank = {
+    count_likes: 100,
+    count_recasts: 100,
+    count_replies: 200,
+    Engagement_Score: 500,
+    rank: 2,
+  };
+
+  const imageData = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
+  ).then((res) => res.arrayBuffer());
+
+  const logoImage = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-logo.png`
+  ).then((res) => res.arrayBuffer());
+
+  const SoraBold = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/fonts/Sora-SemiBold.ttf`
+  ).then((res) => res.arrayBuffer());
+
+  const SoraRegular = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/fonts/Sora-Regular.ttf`
+  ).then((res) => res.arrayBuffer());
 
   return new ImageResponse(
     (
@@ -29,128 +54,179 @@ export async function GET(request: Request) {
           color: "white",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            maxWidth: "1120px",
-          }}
+        {/* @ts-ignore */}
+        <img
+          src={imageData}
+          width="570"
+          height="305"
+          alt="higher-rank"
+          style={{ objectFit: "cover" }}
         >
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "32px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <h1
-                style={{
-                  fontSize: "32px",
-                  fontWeight: "bold",
-                  color: "#FEFAE0",
-                }}
-              >
-                HIGHERBOARD
-              </h1>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
               flexDirection: "column",
-              overflowX: "auto",
-              backgroundColor: "black",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
             }}
           >
-            <table
+            {/*place for user image*/}
+
+            <div
               style={{
-                width: "100%",
+                display: "flex",
+                width: "570px",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                top: "90",
                 fontWeight: "600",
-                fontSize: "14px",
               }}
             >
-              <thead style={{ color: "black" }}>
-                <tr style={{ backgroundColor: "#16a34a" }}>
-                  {[
-                    "Rank",
-                    "User",
-                    "Member Since",
-                    "Casts",
-                    "Recasts",
-                    "Likes",
-                    "Replies",
-                    "Top Casts",
-                  ].map((header) => (
-                    <th
-                      key={header}
-                      style={{
-                        padding: "32px 16px",
-                        borderBottom: "1px solid #1a1a1a",
-                        borderRight: "1px solid #1a1a1a",
-                      }}
-                    >
-                      {header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody style={{}}>
-                {leaderboardData.map((entry, index) => (
-                  <tr key={index}>
-                    {[
-                      "rank",
-                      "user",
-                      "memberSince",
-                      "casts",
-                      "recasts",
-                      "likes",
-                      "replies",
-                    ].map((field) => (
-                      <td
-                        key={field}
-                        style={{
-                          padding: "32px 40px",
-                          borderRight: "1px solid #1a1a1a",
-                          textAlign: "center",
-                        }}
-                      >
-                        {entry[field]}
-                      </td>
-                    ))}
-                    <td
-                      style={{
-                        padding: "32px 16px",
-                        textAlign: "center",
-                      }}
-                    >
-                      <a
-                        href="#"
-                        style={{
-                          color: "#38bdf8",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        {entry.topCasts}
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              <img
+                src={dummyUserData.pfp_url}
+                width="45"
+                height="45"
+                alt="user-profile"
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                }}
+              ></img>
+
+              <div
+                style={{ display: "flex", marginTop: "6px", color: "#FEFAE0" }}
+              >
+                @{tokenId}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "6px",
+                  color: "#FEFAE0",
+                  fontFamily: "SoraRegular",
+                }}
+              >
+                Engagement Score in /higher :
+                <strong
+                  style={{
+                    color: "#1F701F",
+                    marginLeft: "2px",
+                  }}
+                >
+                  {dummyUserRank.Engagement_Score} (#
+                  {dummyUserRank.rank})
+                </strong>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "450px",
+                justifyContent: "space-between",
+                alignItems: "center",
+                height: "36px",
+                fontSize: "14px",
+                top: "130px",
+                left: "60px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  color: "#FEFAE0",
+                  borderRadius: "5px",
+                  backgroundColor: "#1F701F",
+                  fontFamily: "SoraRegular",
+                  width: "140px",
+                  height: "36px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ display: "flex", paddingRight: "8px" }}>
+                  <img
+                    src={logoImage}
+                    width="16"
+                    height="16"
+                    alt="user-profile"
+                    style={{
+                      objectFit: "cover",
+                    }}
+                  ></img>
+                </div>
+                Likes: {dummyUserRank.count_likes}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  color: "#FEFAE0",
+                  borderRadius: "5px",
+                  backgroundColor: "#1F701F",
+                  fontFamily: "SoraRegular",
+                  width: "140px",
+                  height: "36px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ display: "flex", paddingRight: "8px" }}>
+                  <img
+                    src={logoImage}
+                    width="16"
+                    height="16"
+                    alt="user-profile"
+                    style={{
+                      objectFit: "cover",
+                    }}
+                  ></img>
+                </div>
+                Re-casts: {dummyUserRank.count_recasts}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  color: "#FEFAE0",
+                  borderRadius: "5px",
+                  backgroundColor: "#1F701F",
+                  fontFamily: "SoraRegular",
+                  width: "140px",
+                  height: "36px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ display: "flex", paddingRight: "8px" }}>
+                  <img
+                    src={logoImage}
+                    width="16"
+                    height="16"
+                    alt="user-profile"
+                    style={{
+                      objectFit: "cover",
+                    }}
+                  ></img>
+                </div>
+                Replies: {dummyUserRank.count_replies}
+              </div>
+            </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              marginTop: "40px",
-            }}
-          ></div>
-        </div>
+        </img>
       </div>
-    )
+    ),
+    {
+      width: 570,
+      height: 305,
+      fonts: [
+        { data: SoraBold, style: "normal", weight: 600, name: "Sora" },
+        {
+          data: SoraRegular,
+          style: "normal",
+          weight: 400,
+          name: "SoraRegular",
+        },
+      ],
+    }
   );
 }

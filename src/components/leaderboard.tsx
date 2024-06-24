@@ -1,4 +1,5 @@
 "use client";
+import { Rank, UserData } from "@/app/types/types";
 import {
   AuthKitProvider,
   SignInButton,
@@ -7,55 +8,12 @@ import {
 import "@farcaster/auth-kit/styles.css";
 import localFont from "next/font/local";
 import Image from "next/image";
-import { useCallback, useEffect, useState, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FaShareFromSquare } from "react-icons/fa6";
 
 const kreadonDemi = localFont({
   src: "../../public/fonts/Kreadon-Demi.ttf",
 });
-
-interface Rank {
-  Engagement_Score: number;
-  count_likes: number;
-  count_recasts: number;
-  count_replies: number;
-  fid: number;
-  total_engagement: number;
-  rank: number;
-}
-
-interface Profile {
-  bio: {
-    text: string;
-  };
-}
-
-interface VerifiedAddresses {
-  eth_addresses: string[];
-  sol_addresses: string[];
-}
-
-interface ViewerContext {
-  following: boolean;
-  followed_by: boolean;
-}
-
-export interface UserData {
-  object: string;
-  fid: number;
-  custody_address: string;
-  username: string;
-  display_name: string;
-  pfp_url: string;
-  profile: Profile;
-  follower_count: number;
-  following_count: number;
-  verifications: string[];
-  verified_addresses: VerifiedAddresses;
-  active_status: string;
-  power_badge: boolean;
-  viewer_context: ViewerContext;
-}
 
 export default function Leaderboard() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -142,6 +100,7 @@ export default function Leaderboard() {
         console.error("error occurred while fetching user rank", error);
       }
 
+      localStorage.setItem("userRank", JSON.stringify(userRank!?.[0]));
       setLoggedInUserRank((prevRank) => userRank?.[0]);
     };
 
@@ -179,6 +138,9 @@ export default function Leaderboard() {
       };
       setFid(res.fid);
       setLoggedInUserData(userData);
+
+      // store logged in user data in local storage to access it in frames
+      localStorage.setItem("user", JSON.stringify(userData));
     }
   }, []);
 
@@ -213,6 +175,11 @@ export default function Leaderboard() {
     };
   });
 
+  const onComposeFrame = () => {
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/1234`;
+    window.open(url, "_blank");
+  };
+
   return (
     <AuthKitProvider config={config}>
       <div className=" text-white max-h-screen p-4 md:text-xs lg:text-base">
@@ -229,14 +196,17 @@ export default function Leaderboard() {
           </div>
 
           <div className="flex space-x-4">
-            {isAuthenticated && loggedInUserData && (
-              <button className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center">
-                <div className="mr-1">
-                  <FaShareFromSquare color="white" size={16} />
-                </div>
-                Share Your Rank
-              </button>
-            )}
+            {/* {isAuthenticated && loggedInUserData && ( */}
+            <button
+              className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center"
+              onClick={onComposeFrame}
+            >
+              <div className="mr-1">
+                <FaShareFromSquare color="white" size={16} />
+              </div>
+              Share Your Rank
+            </button>
+            {/* )} */}
             <div className="sign-in-button" id="sign-in">
               <SignInButton onSuccess={onSignInSuccess} onSignOut={onSignOut} />
             </div>

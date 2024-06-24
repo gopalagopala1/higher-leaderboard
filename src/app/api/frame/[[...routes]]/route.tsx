@@ -10,9 +10,11 @@ const app = new Frog({
   basePath: "/api/frame",
 });
 
-app.frame("/", (c) => {
+app.frame("/:fid", (c) => {
+  const { fid } = c.req.param();
+  console.log("fid: ", fid);
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?fid=${fid}`,
   });
 });
 
