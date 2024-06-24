@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 //@ts-nocheck
 
-import { cookies } from "next/headers";
 import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
-  const userJson = cookies().get("userData");
-  const allCookies = cookies().getAll();
-  console.log("all coookies: ", allCookies);
-  console.log("userJson: ", userJson);
-  const userData = JSON.parse(userJson?.value);
-  console.log("userData: ", userData);
+  const { searchParams } = new URL(request.url);
+  const userString = searchParams.get("userData");
 
+  console.log("user String: ", userString);
+
+  const userData = JSON.parse(userString || "");
+  console.log("userData: ", userData);
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
   ).then((res) => res.arrayBuffer());

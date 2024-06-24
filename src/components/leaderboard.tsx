@@ -100,9 +100,6 @@ export default function Leaderboard() {
         console.error("error occurred while fetching user rank", error);
       }
 
-      document.cookie = `userRank=${
-        userRank!?.[0]
-      }; path=/; secure; samesite=strict;`;
       setLoggedInUserRank((prevRank) => userRank?.[0]);
     };
 
@@ -140,9 +137,6 @@ export default function Leaderboard() {
       };
       setFid(res.fid);
       setLoggedInUserData(userData);
-
-      // store logged in user data in local storage to access it in frames
-      document.cookie = `userData=${userData}; path=/; secure; samesite=strict;`;
     }
   }, []);
 
@@ -188,11 +182,9 @@ export default function Leaderboard() {
       rank: loggedInUserRank?.rank,
     };
 
-    document.cookie = `userData=${JSON.stringify(userData)}; path=/;`;
-
     const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
       process.env.NEXT_PUBLIC_SITE_URL
-    }/api/frame/${JSON.stringify(loggedInUserData?.fid)}`;
+    }/api/frame?userData=${JSON.stringify(userData)}`;
     window.open(url, "_blank");
   };
 

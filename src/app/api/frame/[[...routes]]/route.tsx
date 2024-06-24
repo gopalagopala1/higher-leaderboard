@@ -11,11 +11,12 @@ const app = new Frog({
   basePath: "/api/frame",
 });
 
-app.frame("/:fid", async (c) => {
-  const { fid } = c.req.param();
-
+app.frame("/", async (c) => {
+  const query = c.req.query();
+  const userData = query.userData;
+  console.log("userData: ", userData);
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?fid=${1841}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${userData}}`,
   });
 });
 
