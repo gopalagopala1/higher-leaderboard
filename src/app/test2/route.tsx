@@ -2,19 +2,43 @@
 //@ts-nocheck
 
 import { ImageResponse } from "next/og";
+import { fetchUsersByFid } from "../api/fetchUsers/route";
+import { fetchRankByFid } from "../api/fetchRankForFid/route";
 
 export async function GET(request: Request) {
   const { url } = request;
   const { searchParams } = new URL(url);
-  const userDataString = searchParams.get("userData");
-  const userData = JSON.parse(decodeURIComponent(userDataString));
+  const fid = searchParams.get("fid");
+  const userData = JSON.parse(
+    (await fetchUsersByFid([parseInt(fid)])) ?? "[]"
+  )?.[0];
+  const userRank = JSON.parse((await fetchRankByFid(fid)) ?? "[]")?.[0];
+
+  console.log("user data:", userData);
+  console.log("user rank: ", userRank);
 
   const imageData = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background2.png`
+  ).then((res) => res.arrayBuffer());
+
+  const titleImage = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/title3.png`
   ).then((res) => res.arrayBuffer());
 
   const logoImage = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-logo.png`
+  ).then((res) => res.arrayBuffer());
+
+  const repliesImage = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/replies.png`
+  ).then((res) => res.arrayBuffer());
+
+  const likesImage = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/likes.png`
+  ).then((res) => res.arrayBuffer());
+
+  const noRankImage = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/no-rank.png`
   ).then((res) => res.arrayBuffer());
 
   const SoraBold = await fetch(
@@ -27,180 +51,181 @@ export async function GET(request: Request) {
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          maxHeight: "100vh",
-          padding: "16px",
-          color: "white",
-        }}
-      >
-        {/* @ts-ignore */}
-        <img
-          src={imageData}
-          width="570"
-          height="305"
-          alt="higher-rank"
-          style={{ objectFit: "cover" }}
+      <img src={imageData} alt="higher-rank" style={{ objectFit: "cover" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
+          <img
+            src={titleImage}
+            width="150px"
+            height="30px"
+            alt="higher-title"
+            style={{ marginBottom: "30px", marginRight: "20px" }}
+          />
+
           <div
             style={{
               display: "flex",
+              width: "570px",
               flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              fontWeight: "600",
+              marginBottom: "30px",
             }}
           >
-            {/*place for user image*/}
+            <img
+              src={userRank ? userData?.pfp_url : noRankImage}
+              width="45"
+              height="45"
+              alt="user-profile"
+              style={{
+                objectFit: "cover",
+                borderRadius: "50%",
+              }}
+            ></img>
 
             <div
-              style={{
-                display: "flex",
-                width: "570px",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                top: "90",
-                fontWeight: "600",
-              }}
+              style={{ display: "flex", marginTop: "6px", color: "#FEFAE0" }}
             >
-              <img
-                src={
-                  userData?.pfp_url ??
-                  "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/50014c99-3420-4bbf-b8d0-f0b40b6d0600/rectcrop3"
-                }
-                width="45"
-                height="45"
-                alt="user-profile"
-                style={{
-                  objectFit: "cover",
-                  borderRadius: "50%",
-                }}
-              ></img>
-
-              <div
-                style={{ display: "flex", marginTop: "6px", color: "#FEFAE0" }}
-              >
-                @{userData?.username}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: "6px",
-                  color: "#FEFAE0",
-                  fontFamily: "SoraRegular",
-                }}
-              >
-                Engagement Score in /higher :
-                <strong
-                  style={{
-                    color: "#1F701F",
-                    marginLeft: "2px",
-                  }}
-                >
-                  {userData?.Engagement_Score} (#
-                  {userData?.rank || "No Rank"})
-                </strong>
-              </div>
+              @{userData?.username}
             </div>
-
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
-                width: "450px",
-                justifyContent: "space-between",
                 alignItems: "center",
-                height: "36px",
-                fontSize: "14px",
-                top: "130px",
-                left: "60px",
+                marginTop: "6px",
+                color: "#FEFAE0",
+                fontFamily: "SoraRegular",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  color: "#FEFAE0",
-                  borderRadius: "5px",
-                  backgroundColor: "#1F701F",
-                  fontFamily: "SoraRegular",
-                  width: "140px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div style={{ display: "flex", paddingRight: "8px" }}>
-                  <img
-                    src={logoImage}
-                    width="16"
-                    height="16"
-                    alt="user-profile"
+              {userRank ? (
+                <>
+                  Engagement Score in /higher :
+                  <strong
                     style={{
-                      objectFit: "cover",
+                      color: "#1F701F",
+                      marginLeft: "2px",
+                      fontFamily: "SoraBold",
                     }}
-                  ></img>
-                </div>
-                Likes: {userData.count_likes || "No Likes"}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  color: "#FEFAE0",
-                  borderRadius: "5px",
-                  backgroundColor: "#1F701F",
-                  fontFamily: "SoraRegular",
-                  width: "140px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div style={{ display: "flex", paddingRight: "8px" }}>
-                  <img
-                    src={logoImage}
-                    width="16"
-                    height="16"
-                    alt="user-profile"
+                  >
+                    {userRank?.Engagement_Score?.toFixed(2)} (#
+                    {userRank?.rank || "0"})
+                  </strong>
+                </>
+              ) : (
+                <>
+                  Oh no! Looks like you need to go Higher :{" "}
+                  <strong
                     style={{
-                      objectFit: "cover",
+                      color: "#1F701F",
+                      marginLeft: "2px",
+                      fontFamily: "SoraBold",
                     }}
-                  ></img>
-                </div>
-                Re-casts: {userData?.count_recasts || "No Re-casts"}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  color: "#FEFAE0",
-                  borderRadius: "5px",
-                  backgroundColor: "#1F701F",
-                  fontFamily: "SoraRegular",
-                  width: "140px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div style={{ display: "flex", paddingRight: "8px" }}>
-                  <img
-                    src={logoImage}
-                    width="16"
-                    height="16"
-                    alt="user-profile"
-                    style={{
-                      objectFit: "cover",
-                    }}
-                  ></img>
-                </div>
-                Replies: {userData.count_replies || "No Replies"}
-              </div>
+                  >
+                    0{" "}
+                  </strong>
+                </>
+              )}
             </div>
           </div>
-        </img>
-      </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "450px",
+              justifyContent: "space-between",
+              alignItems: "center",
+              height: "36px",
+              fontSize: "14px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                color: "#FEFAE0",
+                borderRadius: "5px",
+                backgroundColor: "#1F701F",
+                fontFamily: "SoraRegular",
+                width: "140px",
+                height: "36px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <img
+                  src={likesImage}
+                  width="16"
+                  height="16"
+                  alt="user-likes"
+                ></img>
+              </div>
+              <p style={{ paddingRight: "4px", paddingLeft: "4px" }}>
+                Likes: {userRank?.count_likes || "0"}
+              </p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                color: "#FEFAE0",
+                borderRadius: "5px",
+                backgroundColor: "#1F701F",
+                fontFamily: "SoraRegular",
+                width: "140px",
+                height: "36px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <img
+                  src={logoImage}
+                  width="16"
+                  height="16"
+                  alt="user-re-casts"
+                ></img>
+              </div>
+              <p style={{ paddingRight: "4px", paddingLeft: "4px" }}>
+                Re-casts: {userRank?.count_recasts || "0"}
+              </p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                color: "#FEFAE0",
+                borderRadius: "5px",
+                backgroundColor: "#1F701F",
+                fontFamily: "SoraRegular",
+                width: "140px",
+                height: "36px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <img
+                  src={repliesImage}
+                  width="16"
+                  height="16"
+                  alt="user-replies"
+                ></img>
+              </div>
+              <p style={{ paddingRight: "4px", paddingLeft: "4px" }}>
+                Replies: {userRank?.count_replies || "0"}
+              </p>
+            </div>
+          </div>
+        </div>
+      </img>
     ),
     {
       width: 570,

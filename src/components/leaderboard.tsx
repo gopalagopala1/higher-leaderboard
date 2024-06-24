@@ -91,8 +91,9 @@ export default function Leaderboard() {
     const statsForFid = async () => {
       let userRank: Rank[];
       try {
-        const response = await fetch(`/api/fetchRankForFid?fid=${fid}`, {
-          method: "GET",
+        const response = await fetch(`/api/fetchRankForFid`, {
+          method: "POST",
+          body: JSON.stringify({ fid }),
         });
         // calculate rank of the user
         userRank = await response.json();
@@ -172,19 +173,7 @@ export default function Leaderboard() {
   });
 
   const onComposeFrame = () => {
-    const userData = {
-      username: loggedInUserData?.username,
-      pfp_url: loggedInUserData?.pfp_url,
-      Engagement_Score: loggedInUserRank?.Engagement_Score.toFixed(2),
-      count_likes: loggedInUserRank?.count_likes,
-      count_recast: loggedInUserRank?.count_recasts,
-      count_replies: loggedInUserRank?.count_replies,
-      rank: loggedInUserRank?.rank,
-    };
-
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
-      process.env.NEXT_PUBLIC_SITE_URL
-    }/api/frame2?userData=${JSON.stringify(userData)}`;
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${loggedInUserData?.fid}`;
 
     window.open(url, "_blank");
   };
@@ -205,17 +194,17 @@ export default function Leaderboard() {
           </div>
 
           <div className="flex space-x-4">
-            {isAuthenticated && loggedInUserData && (
-              <button
-                className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center"
-                onClick={onComposeFrame}
-              >
-                <div className="mr-1">
-                  <FaShareFromSquare color="white" size={16} />
-                </div>
-                Share Your Rank
-              </button>
-            )}
+            {/* {isAuthenticated && loggedInUserData && ( */}
+            <button
+              className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center"
+              onClick={onComposeFrame}
+            >
+              <div className="mr-1">
+                <FaShareFromSquare color="white" size={16} />
+              </div>
+              Share Your Rank
+            </button>
+            {/* )} */}
             <div className="sign-in-button" id="sign-in">
               <SignInButton onSuccess={onSignInSuccess} onSignOut={onSignOut} />
             </div>

@@ -7,22 +7,14 @@ import { serveStatic } from "frog/serve-static";
 
 const app = new Frog({
   assetsPath: "/",
-  basePath: "/api/frame2",
+  basePath: "/api/frame",
 });
 
-app.frame("/", async (c) => {
-  const query = c.req.query();
-  const userDataString = query.userData;
-  console.log(userDataString);
-  const userData = JSON.parse(userDataString ?? "{}");
-  console.log(userData);
-
-  const encodedUserData = encodeURIComponent(JSON.stringify(userData));
-
-  // const userQuery = encodeURIComponent(JSON.stringify(userData));
-  // console.log(userData, userQuery);
+app.frame("/:fid", async (c) => {
+  const { fid } = c.req.param();
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test2?userData=${encodedUserData}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test2?fid=${fid}`,
+    imageAspectRatio: "1.91:1",
   });
 });
 
