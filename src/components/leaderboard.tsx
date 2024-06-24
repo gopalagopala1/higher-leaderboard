@@ -209,23 +209,23 @@ export default function Leaderboard() {
         <div
           className={`grid grid-cols-1 md:grid-cols-11 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
         >
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
+          <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
             Rank
           </div>
-          <div className="col-span-1 md:col-span-2 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-2 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             User
           </div>
 
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Likes
           </div>
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Recasts
           </div>
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Replies
           </div>
-          <div className="col-span-1 md:col-span-2 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-2 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Total Engagement
           </div>
           <div className="col-span-1 md:col-span-3 py-2 md:py-4">
@@ -233,13 +233,44 @@ export default function Leaderboard() {
           </div>
         </div>
         <div
-          className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-230px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
+          className={`overflow-hidden max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-230px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
           ref={containerRef}
         >
           {users.length === 0 || leadData.length === 0 ? (
-            <p className="text-[#FEFAE0] text-2xl font-medium p-6 text-center w-full">
-              Loading...
-            </p>
+            <div className="text-[#FEFAE0] text-2xl font-medium p-6 text-center w-full h-full min-h-[calc(100vh-560px)] md:min-h-[calc(100vh-230px)]">
+              <div className="grid grid-cols-1 md:grid-cols-11 gap-y-0 text-center items-center  border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                  <>
+                    <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="bg-gray-300 h-4 w-12 mx-auto rounded animate-pulse"></div>
+                    </div>
+                    <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="flex items-center space-x-2 justify-center md:justify-center">
+                        <div className="md:ml-4">
+                          <div className="rounded-full bg-gray-300 w-6 h-6 animate-pulse"></div>
+                        </div>
+                        <div className="bg-gray-300 h-4 w-24 rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                    <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="bg-gray-300 h-4 w-8 mx-auto rounded animate-pulse"></div>
+                    </div>
+                    <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="bg-gray-300 h-4 w-8 mx-auto rounded animate-pulse"></div>
+                    </div>
+                    <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="bg-gray-300 h-4 w-8 mx-auto rounded animate-pulse"></div>
+                    </div>
+                    <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="bg-gray-300 h-4 w-16 mx-auto rounded animate-pulse"></div>
+                    </div>
+                    <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="bg-gray-300 h-4 w-16 mx-auto rounded animate-pulse"></div>
+                    </div>
+                  </>
+                ))}
+              </div>
+            </div>
           ) : (
             <>
               {displayData &&
@@ -250,9 +281,9 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={index}
-                      className="grid grid-cols-1 md:grid-cols-11 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
+                      className="grid grid-cols-1 md:grid-cols-11 gap-y-0 text-center items-center   border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
                     >
-                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                         {item.rank === 1 ? (
                           ""
                         ) : item.rank === 2 ? (
@@ -272,14 +303,14 @@ export default function Leaderboard() {
                             : ""}
                         </span>
                       </div>
-                      <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
                         <div
                           className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                           onClick={() =>
                             navigateToUserProfile(userData.username)
                           }
                         >
-                          <div className="md:ml-4">
+                          <div className="md:ml-10">
                             <Image
                               loader={() => userData?.pfp_url}
                               src={userData?.pfp_url}
@@ -294,19 +325,19 @@ export default function Leaderboard() {
                         </div>
                       </div>
 
-                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                         {item.count_likes}
                       </div>
-                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                         {item.count_recasts}
                       </div>
-                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                         {item.count_replies}
                       </div>
-                      <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
                         {item.total_engagement}
                       </div>
-                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
                         {item.Engagement_Score.toFixed(2)}
                       </div>
                     </div>
@@ -330,10 +361,10 @@ export default function Leaderboard() {
 
               {isAuthenticated && loggedInUserRank && (
                 <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-11 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     #{loggedInUserRank.rank}
                   </div>
-                  <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
                     <div
                       className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                       onClick={() =>
@@ -356,19 +387,19 @@ export default function Leaderboard() {
                       <div>@{loggedInUserData?.username as string}</div>
                     </div>
                   </div>
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_recasts}
                   </div>
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_likes}
                   </div>
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_replies}
                   </div>
-                  <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.total_engagement}
                   </div>
-                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.Engagement_Score.toFixed(2)}
                   </div>
                 </div>
