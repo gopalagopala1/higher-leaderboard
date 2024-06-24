@@ -6,6 +6,7 @@ import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
   const userJson = cookies().get("userData");
+  console.log("userJson: ", userJson);
   const userData = JSON.parse(userJson?.value);
   console.log("userData: ", userData);
 
