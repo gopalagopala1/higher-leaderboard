@@ -1,15 +1,13 @@
 /** @jsxImportSource frog/jsx */
 
-import { getUser, getUserRank } from "@/utils/loggedInUser";
 import { Frog } from "frog";
 import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
-import { CgLayoutGrid } from "react-icons/cg";
 
 const app = new Frog({
   assetsPath: "/",
-  basePath: "/api/frame",
+  basePath: "/api/frame2",
 });
 
 app.frame("/", async (c) => {

@@ -184,7 +184,7 @@ export default function Leaderboard() {
 
     const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
       process.env.NEXT_PUBLIC_SITE_URL
-    }/api/frame?userData=${JSON.stringify(userData)}`;
+    }/api/frame2?userData=${JSON.stringify(userData)}`;
 
     window.open(url, "_blank");
   };
