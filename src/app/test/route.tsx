@@ -3,6 +3,7 @@
 
 import { ImageResponse } from "next/og";
 import { Rank, UserData } from "../types/types";
+import { getObjectByHash } from "@/utils/hasher";
 
 export async function GET(request: Request) {
   // const userData: UserData = localStorage.getItem("userData");

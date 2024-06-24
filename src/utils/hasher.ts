@@ -1,6 +1,6 @@
 const objectStore = new Map();
 
-function generateObjectHash(obj: Object) {
+export function generateObjectHash(obj: Object) {
   // Convert object to JSON string
   const jsonString = JSON.stringify(obj);
 
@@ -23,7 +23,7 @@ function generateObjectHash(obj: Object) {
   return hash;
 }
 
-function getObjectByHash(hash: string) {
+export function getObjectByHash(hash: string) {
   // Retrieve the object from the map using the hash
   return objectStore.get(hash);
 }
