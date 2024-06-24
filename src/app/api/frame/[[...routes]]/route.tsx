@@ -16,7 +16,7 @@ app.frame("/", async (c) => {
   const query = c.req.query();
   const userDataString = query.userData;
   console.log(userDataString);
-  const userData = JSON.parse(userDataString);
+  const userData = JSON.parse(userDataString ?? "{}");
   console.log(userData);
 
   const encodedUserData = encodeURIComponent(JSON.stringify(userData));

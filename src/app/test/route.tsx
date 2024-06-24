@@ -66,7 +66,10 @@ export async function GET(request: Request) {
               }}
             >
               <img
-                src={userData?.pfp_url}
+                src={
+                  userData?.pfp_url ??
+                  "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/50014c99-3420-4bbf-b8d0-f0b40b6d0600/rectcrop3"
+                }
                 width="45"
                 height="45"
                 alt="user-profile"
