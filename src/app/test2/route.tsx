@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 //@ts-nocheck
 
+import { fetchRankByFid, fetchUsersByFid } from "@/utils/apis";
 import { ImageResponse } from "next/og";
-import { fetchUsersByFid } from "../api/fetchUsers/route";
-import { fetchRankByFid } from "../api/fetchRankForFid/route";
 
 export async function GET(request: Request) {
   const { url } = request;
