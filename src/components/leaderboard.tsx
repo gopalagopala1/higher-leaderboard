@@ -176,7 +176,19 @@ export default function Leaderboard() {
   });
 
   const onComposeFrame = () => {
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/1234`;
+    const userData = {
+      username: loggedInUserData?.username,
+      pfp_url: loggedInUserData?.pfp_url,
+      Engagement_Score: loggedInUserRank?.Engagement_Score.toFixed(2),
+      count_likes: loggedInUserRank?.count_likes,
+      count_recast: loggedInUserRank?.count_recasts,
+      count_replies: loggedInUserRank?.count_replies,
+      rank: loggedInUserRank?.rank,
+    };
+
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
+      process.env.NEXT_PUBLIC_SITE_URL
+    }/api/frame/${JSON.stringify(userData)}`;
     window.open(url, "_blank");
   };
 

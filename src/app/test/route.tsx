@@ -8,21 +8,7 @@ export async function GET(request: Request) {
   // const userRank: Rank = localStorage.getItem("userRank");
 
   const { searchParams } = new URL(request.url);
-  const tokenId = searchParams.get("fid");
-
-  const dummyUserData = {
-    username: "lght.eth",
-    pfp_url:
-      "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/50014c99-3420-4bbf-b8d0-f0b40b6d0600/rectcrop3",
-  };
-
-  const dummyUserRank = {
-    count_likes: 100,
-    count_recasts: 100,
-    count_replies: 200,
-    Engagement_Score: 500,
-    rank: 2,
-  };
+  const userData = searchParams.get("userData");
 
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
@@ -81,7 +67,7 @@ export async function GET(request: Request) {
               }}
             >
               <img
-                src={dummyUserData.pfp_url}
+                src={userData.pfp_url}
                 width="45"
                 height="45"
                 alt="user-profile"
@@ -112,8 +98,8 @@ export async function GET(request: Request) {
                     marginLeft: "2px",
                   }}
                 >
-                  {dummyUserRank.Engagement_Score} (#
-                  {dummyUserRank.rank})
+                  {userData.Engagement_Score} (#
+                  {userData.rank})
                 </strong>
               </div>
             </div>
@@ -155,7 +141,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Likes: {dummyUserRank.count_likes}
+                Likes: {userData.count_likes}
               </div>
               <div
                 style={{
@@ -181,7 +167,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Re-casts: {dummyUserRank.count_recasts}
+                Re-casts: {userData.count_recasts}
               </div>
               <div
                 style={{
@@ -207,7 +193,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Replies: {dummyUserRank.count_replies}
+                Replies: {userData.count_replies}
               </div>
             </div>
           </div>
