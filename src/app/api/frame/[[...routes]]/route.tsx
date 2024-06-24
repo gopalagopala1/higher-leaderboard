@@ -15,10 +15,10 @@ app.frame("/", async (c) => {
   const query = c.req.query();
   const userData = JSON.parse(query.userData);
 
-  console.log("query: ", userData);
+  const userQuery = encodeURIComponent(JSON.stringify(userData));
 
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?username=${userData.username}&pfp_url=${userData.pfp_url}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${userQuery}`,
   });
 });
 

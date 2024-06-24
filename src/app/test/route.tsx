@@ -5,12 +5,10 @@ import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  console.log("search params: ", searchParams);
+  const string = searchParams.get("userData");
 
-  const username = searchParams.get("username");
-  const pfp_url = searchParams.get("pfp_url");
-  console.log("userData: ", username, pfp_url);
-  const userData = {};
+  const userData = JSON.parse(decodeURIComponent(string));
+
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
   ).then((res) => res.arrayBuffer());
@@ -68,7 +66,7 @@ export async function GET(request: Request) {
               }}
             >
               <img
-                src={userData.pfp_url}
+                src={userData?.pfp_url}
                 width="45"
                 height="45"
                 alt="user-profile"
@@ -81,7 +79,7 @@ export async function GET(request: Request) {
               <div
                 style={{ display: "flex", marginTop: "6px", color: "#FEFAE0" }}
               >
-                @{userData.username}
+                @{userData?.username}
               </div>
               <div
                 style={{
@@ -99,8 +97,8 @@ export async function GET(request: Request) {
                     marginLeft: "2px",
                   }}
                 >
-                  {userData.Engagement_Score} (#
-                  {userData.rank || "No Rank"})
+                  {userData?.Engagement_Score} (#
+                  {userData?.rank || "No Rank"})
                 </strong>
               </div>
             </div>
@@ -168,7 +166,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Re-casts: {userData.count_recasts || "No Re-casts"}
+                Re-casts: {userData?.count_recasts || "No Re-casts"}
               </div>
               <div
                 style={{
