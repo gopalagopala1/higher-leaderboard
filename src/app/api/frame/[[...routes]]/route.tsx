@@ -5,6 +5,7 @@ import { Frog } from "frog";
 import { devtools } from "frog/dev";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
+import { CgLayoutGrid } from "react-icons/cg";
 
 const app = new Frog({
   assetsPath: "/",
@@ -13,12 +14,17 @@ const app = new Frog({
 
 app.frame("/", async (c) => {
   const query = c.req.query();
-  const userData = JSON.parse(query.userData);
+  const userDataString = query.userData;
+  console.log(userDataString);
+  const userData = JSON.parse(userDataString);
+  console.log(userData);
 
-  const userQuery = encodeURIComponent(JSON.stringify(userData));
+  const encodedUserData = encodeURIComponent(JSON.stringify(userData));
 
+  // const userQuery = encodeURIComponent(JSON.stringify(userData));
+  // console.log(userData, userQuery);
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${userQuery}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${encodedUserData}`,
   });
 });
 
