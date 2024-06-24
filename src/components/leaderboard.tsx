@@ -1,6 +1,5 @@
 "use client";
 import { Rank, UserData } from "@/app/types/types";
-import { ObjectHasher } from "@/utils/hasher";
 import {
   AuthKitProvider,
   SignInButton,
