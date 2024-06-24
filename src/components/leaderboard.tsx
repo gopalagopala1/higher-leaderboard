@@ -208,17 +208,17 @@ export default function Leaderboard() {
           </div>
 
           <div className="flex space-x-4">
-            {/* {isAuthenticated && loggedInUserData && ( */}
-            <button
-              className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center"
-              onClick={onComposeFrame}
-            >
-              <div className="mr-1">
-                <FaShareFromSquare color="white" size={16} />
-              </div>
-              Share Your Rank
-            </button>
-            {/* )} */}
+            {isAuthenticated && loggedInUserData && (
+              <button
+                className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center"
+                onClick={onComposeFrame}
+              >
+                <div className="mr-1">
+                  <FaShareFromSquare color="white" size={16} />
+                </div>
+                Share Your Rank
+              </button>
+            )}
             <div className="sign-in-button" id="sign-in">
               <SignInButton onSuccess={onSignInSuccess} onSignOut={onSignOut} />
             </div>

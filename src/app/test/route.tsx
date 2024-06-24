@@ -99,7 +99,7 @@ export async function GET(request: Request) {
                   }}
                 >
                   {userData.Engagement_Score} (#
-                  {userData.rank})
+                  {userData.rank || "No Rank"})
                 </strong>
               </div>
             </div>
@@ -141,7 +141,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Likes: {userData.count_likes}
+                Likes: {userData.count_likes || "No Likes"}
               </div>
               <div
                 style={{
@@ -167,7 +167,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Re-casts: {userData.count_recasts}
+                Re-casts: {userData.count_recasts || "No Re-casts"}
               </div>
               <div
                 style={{
@@ -193,7 +193,7 @@ export async function GET(request: Request) {
                     }}
                   ></img>
                 </div>
-                Replies: {userData.count_replies}
+                Replies: {userData.count_replies || "No Replies"}
               </div>
             </div>
           </div>
