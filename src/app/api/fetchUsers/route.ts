@@ -1,25 +1,10 @@
 import { UserData } from "@/app/types/types";
+import { fetchUsersByFid } from "@/utils/apis";
 import { NextRequest, NextResponse } from "next/server";
 
 interface RequestBody {
   fids: number[];
 }
-
-export const fetchUsersByFid = async (fids: number[]) => {
-  const fidsString = fids.join("%2C%20");
-  const res = await fetch(
-    `https://api.neynar.com/v2/farcaster/user/bulk?fids=${fidsString}`,
-    {
-      headers: {
-        api_key: process.env.NEYNAR_API_KEY!,
-      },
-    }
-  );
-
-  const data: UserRes = await res.json();
-
-  return JSON.stringify(data.users);
-};
 
 export interface UserRes {
   users: UserData[];

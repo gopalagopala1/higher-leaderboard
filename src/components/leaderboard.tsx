@@ -180,7 +180,7 @@ export default function Leaderboard() {
 
   return (
     <AuthKitProvider config={config}>
-      <div className=" text-white max-h-screen p-4 md:text-xs lg:text-base">
+      <div className=" text-white max-h-screen md:text-xs lg:text-base">
         <div className="flex space-x-4 mb-8 justify-between items-center">
           <Image
             src="/images/header.png"
@@ -207,18 +207,15 @@ export default function Leaderboard() {
           </div>
         </div>
         <div
-          className={`grid grid-cols-1 md:grid-cols-12 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
+          className={`grid grid-cols-1 md:grid-cols-11 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
         >
           <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
             Rank
           </div>
-          <div className="col-span-1 md:col-span-3 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-2 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             User
           </div>
 
-          {/* <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-black px-2 lg:px-6 ">
-            Casts
-          </div> */}
           <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Likes
           </div>
@@ -236,7 +233,7 @@ export default function Leaderboard() {
           </div>
         </div>
         <div
-          className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-300px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
+          className={`max-h-[calc(100vh-560px)] md:max-h-[calc(100vh-230px)] bg-[#1E1E1E] overflow-y-auto no-scrollbar ${kreadonDemi.className} border-[0.01px] border-t-0 border-[#FEFAE0] border-opacity-50`}
           ref={containerRef}
         >
           {users.length === 0 || leadData.length === 0 ? (
@@ -253,7 +250,7 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={index}
-                      className="grid grid-cols-1 md:grid-cols-12 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
+                      className="grid grid-cols-1 md:grid-cols-11 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
                     >
                       <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.rank === 1 ? (
@@ -275,7 +272,7 @@ export default function Leaderboard() {
                             : ""}
                         </span>
                       </div>
-                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                      <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         <div
                           className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                           onClick={() =>
@@ -332,11 +329,11 @@ export default function Leaderboard() {
                 )}
 
               {isAuthenticated && loggedInUserRank && (
-                <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
+                <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-11 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
                   <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     #{loggedInUserRank.rank}
                   </div>
-                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
+                  <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     <div
                       className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                       onClick={() =>

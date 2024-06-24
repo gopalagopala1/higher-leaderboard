@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Home() {
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen text-white p-4 bg-cover bg-center bg-no-repeat"
+      className="flex flex-col items-center justify-center min-h-screen text-white bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
           "linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(22, 43, 76, 0.6)), url(/images/background.png)",

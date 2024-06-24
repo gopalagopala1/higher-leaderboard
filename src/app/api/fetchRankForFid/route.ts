@@ -1,22 +1,9 @@
+import { fetchRankByFid } from "@/utils/apis";
 import { NextRequest, NextResponse } from "next/server";
 
 interface RequestBody {
   fid: string;
 }
-
-export const fetchRankByFid = async (fid: string) => {
-  const response = await fetch(
-    `https://api.dune.com/api/v1/query/3850728/results?fid=${fid}`,
-    {
-      headers: {
-        "X-Dune-API-Key": process.env.DUNE_API_KEY!,
-      },
-    }
-  );
-  const data = await response.json();
-
-  return JSON.stringify(data.result.rows);
-};
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
