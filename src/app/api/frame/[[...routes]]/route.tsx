@@ -1,5 +1,6 @@
 /** @jsxImportSource frog/jsx */
 
+import { getUser, getUserRank } from "@/utils/loggedInUser";
 import { Frog } from "frog";
 import { devtools } from "frog/dev";
 import { handle } from "frog/next";
@@ -10,11 +11,11 @@ const app = new Frog({
   basePath: "/api/frame",
 });
 
-app.frame("/:userData", (c) => {
-  const { userData } = c.req.param();
+app.frame("/:fid", async (c) => {
+  const { fid } = c.req.param();
 
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${userData}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?fid=${1841}`,
   });
 });
 

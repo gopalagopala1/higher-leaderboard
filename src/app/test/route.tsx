@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 //@ts-nocheck
 
+import { cookies } from "next/headers";
 import { ImageResponse } from "next/og";
-import { Rank, UserData } from "../types/types";
-import { getObjectByHash } from "@/utils/hasher";
 
 export async function GET(request: Request) {
-  // const userData: UserData = localStorage.getItem("userData");
+  // const userData: UserData =̈ localStorage.getItem("userData");
   // const userRank: Rank = localStorage.getItem("userRank");
 
-  const { searchParams } = new URL(request.url);
-
-  const userData = JSON.parse(searchParams.get("userData"));
+  const userJson = cookies().get("userData");
+  const userData = JSON.parse(userJson?.value);
+  console.log("userData: ", userData);
 
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
