@@ -186,7 +186,7 @@ export default function Leaderboard() {
       rank: loggedInUserRank?.rank,
     };
 
-    document.cookie = JSON.stringify(userData);
+    document.cookie = `userData=${JSON.stringify(userData)}`;
 
     const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
       process.env.NEXT_PUBLIC_SITE_URL

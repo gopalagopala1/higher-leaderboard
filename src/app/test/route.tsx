@@ -5,9 +5,6 @@ import { cookies } from "next/headers";
 import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
-  // const userData: UserData =̈ localStorage.getItem("userData");
-  // const userRank: Rank = localStorage.getItem("userRank");
-
   const userJson = cookies().get("userData");
   const userData = JSON.parse(userJson?.value);
   console.log("userData: ", userData);
