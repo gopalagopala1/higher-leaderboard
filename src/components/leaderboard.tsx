@@ -182,16 +182,12 @@ export default function Leaderboard() {
     <AuthKitProvider config={config}>
       <div className=" text-white max-h-screen p-4 md:text-xs lg:text-base">
         <div className="flex space-x-4 mb-8 justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <Image
-              src="/Vector.png"
-              alt="logo"
-              width={50}
-              height={40}
-              style={{ height: "50px" }}
-            />
-            <h1 className="text-4xl font-bold text-[#FEFAE0]">HIGHERBOARD</h1>
-          </div>
+          <Image
+            src="/images/header.png"
+            width={400}
+            height={200}
+            alt="header"
+          />
 
           <div className="flex space-x-4">
             {isAuthenticated && loggedInUserData && (
@@ -213,29 +209,29 @@ export default function Leaderboard() {
         <div
           className={`grid grid-cols-1 md:grid-cols-12 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
         >
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6">
+          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
             Rank
           </div>
-          <div className="col-span-1 md:col-span-3 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-3 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             User
           </div>
 
-          {/* <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-black px-2 lg:px-6 ">
+          {/* <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-black px-2 lg:px-6 ">
             Casts
           </div> */}
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Likes
           </div>
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Recasts
           </div>
-          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-1 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Replies
           </div>
-          <div className="col-span-1 md:col-span-2 md:border-r py-2 md:py-6 border-[#FEFAE0] px-2 lg:px-6 ">
+          <div className="col-span-1 md:col-span-2 md:border-r py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
             Total Engagement
           </div>
-          <div className="col-span-1 md:col-span-3 py-2 md:py-6">
+          <div className="col-span-1 md:col-span-3 py-2 md:py-4">
             Engagement Score
           </div>
         </div>
@@ -259,7 +255,7 @@ export default function Leaderboard() {
                       key={index}
                       className="grid grid-cols-1 md:grid-cols-12 gap-y-0 text-center items-center  border-r border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]"
                     >
-                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.rank === 1 ? (
                           ""
                         ) : item.rank === 2 ? (
@@ -279,7 +275,7 @@ export default function Leaderboard() {
                             : ""}
                         </span>
                       </div>
-                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         <div
                           className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                           onClick={() =>
@@ -301,26 +297,26 @@ export default function Leaderboard() {
                         </div>
                       </div>
 
-                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.count_likes}
                       </div>
-                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.count_recasts}
                       </div>
-                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.count_replies}
                       </div>
-                      <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.total_engagement}
                       </div>
-                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-7">
+                      <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
                         {item.Engagement_Score.toFixed(2)}
                       </div>
                     </div>
                   );
                 })}
               {loading && (
-                <div className="py-7 border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
+                <div className="py-4 border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md">
                   <div className="spinner">
                     <div className="bounce" />
                     <div className="bounce" />
@@ -330,17 +326,17 @@ export default function Leaderboard() {
               )}
               {displayData.length >= leadData.length &&
                 displayData.length !== 0 && (
-                  <p className=" bg-[#1E1E1E] py-7 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
+                  <p className=" bg-[#1E1E1E] py-4 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
                     You&apos;ve reached the end
                   </p>
                 )}
 
               {isAuthenticated && loggedInUserRank && (
                 <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-12 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     #{loggedInUserRank.rank}
                   </div>
-                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     <div
                       className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                       onClick={() =>
@@ -363,26 +359,26 @@ export default function Leaderboard() {
                       <div>@{loggedInUserData?.username as string}</div>
                     </div>
                   </div>
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_recasts}
                   </div>
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_likes}
                   </div>
-                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-1 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_replies}
                   </div>
-                  <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-2 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.total_engagement}
                   </div>
-                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-6">
+                  <div className="col-span-1 md:col-span-3 border-r border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.Engagement_Score.toFixed(2)}
                   </div>
                 </div>
               )}
 
               {isAuthenticated && !loggedInUserRank && (
-                <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-6 text-[#FEFAE0]">
+                <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-4 text-[#FEFAE0]">
                   You do not have a rank
                 </div>
               )}

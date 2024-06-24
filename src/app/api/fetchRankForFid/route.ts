@@ -18,7 +18,7 @@ export const fetchRankByFid = async (fid: string) => {
   return JSON.stringify(data.result.rows);
 };
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const reqBody: RequestBody = await req.json();
     const fid = reqBody.fid as string;
