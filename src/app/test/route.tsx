@@ -9,7 +9,9 @@ export async function GET(request: Request) {
   // const userRank: Rank = localStorage.getItem("userRank");
 
   const { searchParams } = new URL(request.url);
-  const userData = searchParams.get("userData");
+  const hash = searchParams.get("userData");
+
+  const userData = getObjectByHash(hash);
 
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`

@@ -1,5 +1,6 @@
 "use client";
 import { Rank, UserData } from "@/app/types/types";
+import { ObjectHasher } from "@/utils/hasher";
 import {
   AuthKitProvider,
   SignInButton,
@@ -186,9 +187,9 @@ export default function Leaderboard() {
       rank: loggedInUserRank?.rank,
     };
 
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
-      process.env.NEXT_PUBLIC_SITE_URL
-    }/api/frame/${JSON.stringify(userData)}`;
+    const hash = generateObjectHash(userData);
+
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${hash}`;
     window.open(url, "_blank");
   };
 
