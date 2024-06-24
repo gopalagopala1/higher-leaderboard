@@ -24,7 +24,7 @@ app.frame("/", async (c) => {
   // const userQuery = encodeURIComponent(JSON.stringify(userData));
   // console.log(userData, userQuery);
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${encodedUserData}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test2?userData=${encodedUserData}`,
   });
 });
 
