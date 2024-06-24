@@ -10,7 +10,6 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const tokenId = searchParams.get("fid");
 
-  const searchPa;
   const dummyUserData = {
     username: "lght.eth",
     pfp_url:
