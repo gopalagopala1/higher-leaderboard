@@ -10,24 +10,13 @@ const app = new Frog({
   basePath: "/api/frame",
 });
 
-app.frame(
-  "/:username/:pfp_url/:likes/:recasts/:replies/:rank/:engagement_score",
-  (c) => {
-    const {
-      username,
-      pfp_url,
-      likes,
-      recasts,
-      replies,
-      rank,
-      engagement_score,
-    } = c.req.param();
+app.frame("/:userData", (c) => {
+  const { userData } = c.req.param();
 
-    return c.res({
-      image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${username}&likes=${likes}&replies=${replies}&recasts=${recasts}&${rank}&${engagement_score}&pfp_url=${pfp_url}`,
-    });
-  }
-);
+  return c.res({
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${userData}`,
+  });
+});
 
 devtools(app, { serveStatic });
 

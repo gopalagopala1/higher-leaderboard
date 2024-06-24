@@ -187,9 +187,9 @@ export default function Leaderboard() {
       rank: loggedInUserRank?.rank,
     };
 
-    const hash = generateObjectHash(userData);
-
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${loggedInUserData?.username}/${loggedInUserData?.pfp_url}/${loggedInUserRank?.count_likes}/${loggedInUserRank?.count_recasts}/${loggedInUserRank?.count_replies}/${loggedInUserRank?.rank}/${loggedInUserRank?.Engagement_Score}`;
+    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${
+      process.env.NEXT_PUBLIC_SITE_URL
+    }/api/frame/${JSON.stringify(userData)}`;
     window.open(url, "_blank");
   };
 
