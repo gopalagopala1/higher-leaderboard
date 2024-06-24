@@ -13,10 +13,11 @@ const app = new Frog({
 
 app.frame("/", async (c) => {
   const query = c.req.query();
-  const userData = query.userData;
-  console.log("userData: ", userData);
+
+  console.log("query: ", query);
+
   return c.res({
-    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${userData}}`,
+    image: `${process.env.NEXT_PUBLIC_SITE_URL}/test?userData=${query.userData}`,
   });
 });
 

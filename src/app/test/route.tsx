@@ -5,11 +5,10 @@ import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
+  console.log("search params: ", searchParams);
+
   const userString = searchParams.get("userData");
-
-  console.log("user String: ", userString);
-
-  const userData = JSON.parse(userString || "");
+  const userData = JSON.parse(userString ?? "");
   console.log("userData: ", userData);
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background.png`
