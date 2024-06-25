@@ -12,6 +12,7 @@ const app = new Frog({
 
 app.frame("/:fid", async (c) => {
   const { fid } = c.req.param();
+
   return c.res({
     image: `${process.env.NEXT_PUBLIC_SITE_URL}/test2?fid=${fid}`,
     imageAspectRatio: "1.91:1",

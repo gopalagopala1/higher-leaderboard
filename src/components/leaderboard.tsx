@@ -173,7 +173,7 @@ export default function Leaderboard() {
   });
 
   const onComposeFrame = () => {
-    const url = `https://warpcast.com/~/compose?text=Hello%20World%20&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${loggedInUserData?.fid}`;
+    const url = `https://warpcast.com/~/compose?text=Go%20Higher%20%21%21%21%21%21%21&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${loggedInUserData?.fid}`;
 
     window.open(url, "_blank");
   };
@@ -373,7 +373,7 @@ export default function Leaderboard() {
                         )
                       }
                     >
-                      <div className="md:ml-4">
+                      <div className="md:ml-10">
                         <Image
                           loader={() => loggedInUserData?.pfp_url || ""}
                           src={loggedInUserData?.pfp_url || ""}
