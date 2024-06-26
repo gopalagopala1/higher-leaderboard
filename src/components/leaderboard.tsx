@@ -8,7 +8,7 @@ import {
 import "@farcaster/auth-kit/styles.css";
 import localFont from "next/font/local";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaShareFromSquare } from "react-icons/fa6";
 
 const kreadonDemi = localFont({
@@ -279,7 +279,7 @@ export default function Leaderboard() {
             <div className="text-[#FEFAE0] text-2xl font-medium p-6 text-center w-full h-full min-h-[calc(100vh-560px)] md:min-h-[calc(100vh-230px)]">
               <div className="grid grid-cols-1 md:grid-cols-11 gap-y-0 text-center items-center  border-[#FEFAE0] border-opacity-50 border-b md:border-b-0 text-[#FEFAE0]">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-                  <>
+                  <React.Fragment key={i}>
                     <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                       <div className="bg-gray-300 h-4 w-12 mx-auto rounded animate-pulse"></div>
                     </div>
@@ -306,7 +306,7 @@ export default function Leaderboard() {
                     <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
                       <div className="bg-gray-300 h-4 w-16 mx-auto rounded animate-pulse"></div>
                     </div>
-                  </>
+                  </React.Fragment>
                 ))}
               </div>
             </div>
