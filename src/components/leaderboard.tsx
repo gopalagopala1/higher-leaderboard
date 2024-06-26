@@ -221,7 +221,7 @@ export default function Leaderboard() {
   return (
     <AuthKitProvider config={config}>
       <div className=" text-white max-h-screen md:text-xs lg:text-base">
-        <div className="flex space-x-4 mb-8 justify-between items-center">
+        <div className="flex space-x-4 mb-4 justify-between items-center">
           <Image
             src="/images/header.png"
             width={400}
@@ -245,14 +245,19 @@ export default function Leaderboard() {
             </div>
           </div>
         </div>
+
+        <div className={`flex justify-end ${kreadonDemi.className} text-xs`}>
+          Ranks are calculated based on engagement score
+        </div>
+
         <div
           className={`grid grid-cols-1 md:grid-cols-11 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
         >
           <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
             Rank
           </div>
-          <div className="col-span-1 md:col-span-2 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
-            User
+          <div className="col-span-1 md:col-span-2 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
+            <div className="flex justify-start ml-4">User</div>
           </div>
 
           <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">
