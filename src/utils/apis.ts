@@ -1,15 +1,75 @@
-export const fetchRankByFid = async (fid: string) => {
-  const response = await fetch(
-    `https://api.dune.com/api/v1/query/3850728/results?fid=${fid}`,
-    {
-      headers: {
-        "X-Dune-API-Key": process.env.DUNE_API_KEY!,
-      },
-    }
-  );
-  const data = await response.json();
+export const executeRankByFidQuery = async (fid: string) => {
+  try {
+    const response = await fetch(
+      `https://api.dune.com/api/v1/query/3850728/execute`,
+      {
+        method: "POST",
+        headers: {
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
+        },
 
-  return JSON.stringify(data.result.rows);
+        body: JSON.stringify({
+          query_parameters: {
+            fid: fid,
+          },
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    return JSON.stringify(data);
+  } catch (error) {
+    console.error("error: ", error);
+  }
+};
+
+export const fetchRankByExecutionId = async (executionId: string) => {
+  try {
+    const response = await fetch(
+      `https://api.dune.com/api/v1/execution/${executionId}/results`,
+      {
+        method: "GET",
+        headers: {
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.is_execution_finished) {
+      return JSON.stringify(data);
+    }
+
+    return JSON.stringify(data);
+  } catch (error) {
+    console.error("error while fetching execution results: ", error);
+  }
+};
+
+export const fetchExecutedUserRank = async () => {
+  try {
+    const response = await fetch(
+      `https://api.dune.com/api/v1/query/3850728/results`,
+      {
+        method: "GET",
+        headers: {
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.is_execution_finished) {
+      return JSON.stringify(data);
+    }
+
+    return JSON.stringify(data.result.rows);
+  } catch (error) {
+    console.error("error while fetching executed user rank: ", error);
+  }
 };
 
 export const fetchUsersByFid = async (fids: number[]) => {

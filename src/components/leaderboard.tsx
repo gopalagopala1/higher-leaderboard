@@ -25,7 +25,10 @@ export default function Leaderboard() {
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
   const [fid, setFid] = useState<number>();
   const [loading, setLoading] = useState<boolean>();
+  const [isFetchingUserRank, setFetchingUserRank] = useState<boolean>(false);
+  const [executionId, setExecutionId] = useState<boolean>();
   const containerRef = useRef<HTMLDivElement>(null);
+  const intervalIdRef = useRef(null);
 
   const fetchUsers = async (fids: number[]) => {
     const response = await fetch(`/api/fetchUsers`, {
@@ -89,25 +92,62 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const statsForFid = async () => {
-      let userRank: Rank[];
       try {
-        const response = await fetch(`/api/fetchRankForFid`, {
+        if (!fid) return;
+        setFetchingUserRank(true);
+        const executionResponse = await fetch(`/api/fetchRankForFid`, {
           method: "POST",
           body: JSON.stringify({ fid }),
         });
-        // calculate rank of the user
-        userRank = await response.json();
+
+        const executionData = await executionResponse.json();
+
+        const executionId = executionData.execution_id;
+
+        setExecutionId(executionId);
       } catch (error) {
         console.error("error occurred while fetching user rank", error);
       }
-
-      setLoggedInUserRank((prevRank) => userRank?.[0]);
     };
 
     if (isAuthenticated) {
       statsForFid();
     }
   }, [isAuthenticated, fid]);
+
+  const fetchLoggedInUserRank = useCallback(async () => {
+    const rankResponse = await fetch(
+      `/api/fetchRankForFid?executionId=${executionId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await rankResponse?.json();
+
+    if (data.state === "QUERY_STATE_COMPLETED") {
+      const userRank = data.result?.rows?.[0];
+      setLoggedInUserRank(userRank);
+      setFetchingUserRank(false);
+      clearInterval(intervalIdRef.current!);
+    }
+  }, [executionId]);
+
+  useEffect(() => {
+    if (!executionId && !intervalIdRef.current) return;
+
+    fetchLoggedInUserRank();
+
+    //@ts-ignore
+    intervalIdRef.current = setInterval(fetchLoggedInUserRank, 30000);
+
+    setTimeout(() => {
+      clearInterval(intervalIdRef.current!);
+    }, 180000); // 180000 milliseconds = 3 minutes
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalIdRef.current!);
+  }, [executionId, fetchLoggedInUserRank]);
 
   //TODO: update this
   const config = {
@@ -188,7 +228,6 @@ export default function Leaderboard() {
             height={200}
             alt="header"
           />
-
           <div className="flex space-x-4">
             {isAuthenticated && loggedInUserData && (
               <button
@@ -359,7 +398,13 @@ export default function Leaderboard() {
                   </p>
                 )}
 
-              {isAuthenticated && loggedInUserRank && (
+              {isAuthenticated && !loggedInUserRank && isFetchingUserRank && (
+                <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-4 text-[#FEFAE0]">
+                  ...Fetching Your Rank
+                </div>
+              )}
+
+              {isAuthenticated && loggedInUserRank && !isFetchingUserRank && (
                 <div className="sticky bottom-0 bg-[#1E1E1E] grid grid-cols-4 md:grid-cols-11 gap-0 text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md text-[#FEFAE0]">
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     #{loggedInUserRank.rank}
@@ -405,7 +450,7 @@ export default function Leaderboard() {
                 </div>
               )}
 
-              {isAuthenticated && !loggedInUserRank && (
+              {isAuthenticated && !loggedInUserRank && !isFetchingUserRank && (
                 <div className="sticky bottom-0 bg-[#1E1E1E] text-center items-center border-t-2 border-[#FEFAE0] border-opacity-50 shadow-md py-4 text-[#FEFAE0]">
                   You do not have a rank
                 </div>
