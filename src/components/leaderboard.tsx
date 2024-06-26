@@ -343,25 +343,34 @@ export default function Leaderboard() {
                         </span>
                       </div>
                       <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
-                        <div
-                          className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
-                          onClick={() =>
-                            navigateToUserProfile(userData.username)
-                          }
-                        >
-                          <div className="md:ml-10">
-                            <Image
-                              loader={() => userData?.pfp_url}
-                              src={userData?.pfp_url}
-                              alt={"pfp"}
-                              width={18}
-                              height={18}
-                              className="rounded-full max-w-6 max-h-6"
-                            />
+                        {!userData?.username ? (
+                          <div className="flex items-center space-x-2 justify-center md:justify-start">
+                            <div className="md:ml-10">
+                              <div className="rounded-full bg-gray-300 w-6 h-6 animate-pulse"></div>
+                            </div>
+                            <div className="bg-gray-300 h-4 w-24 rounded animate-pulse"></div>
                           </div>
+                        ) : (
+                          <div
+                            className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline max-w-40 overflow-hidden text-ellipsis whitespace-nowrap"
+                            onClick={() =>
+                              navigateToUserProfile(userData.username)
+                            }
+                          >
+                            <div className="md:ml-10">
+                              <Image
+                                loader={() => userData?.pfp_url}
+                                src={userData?.pfp_url}
+                                alt={"pfp"}
+                                width={18}
+                                height={18}
+                                className="rounded-full max-w-6 max-h-6"
+                              />
+                            </div>
 
-                          <div>@{userData?.username}</div>
-                        </div>
+                            <div>@{userData?.username}</div>
+                          </div>
+                        )}
                       </div>
 
                       <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
