@@ -194,7 +194,7 @@ export default function Leaderboard() {
     if (
       containerRef.current &&
       containerRef.current.scrollTop + containerRef.current.clientHeight >=
-        containerRef.current.scrollHeight
+        containerRef.current.scrollHeight - 5
     ) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
