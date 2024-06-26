@@ -139,7 +139,7 @@ export default function Leaderboard() {
     fetchLoggedInUserRank();
 
     //@ts-ignore
-    intervalIdRef.current = setInterval(fetchLoggedInUserRank, 30000);
+    intervalIdRef.current = setInterval(fetchLoggedInUserRank, 10000);
 
     setTimeout(() => {
       clearInterval(intervalIdRef.current!);
@@ -229,7 +229,7 @@ export default function Leaderboard() {
             alt="header"
           />
           <div className="flex space-x-4">
-            {isAuthenticated && loggedInUserData && (
+            {isAuthenticated && loggedInUserData && !isFetchingUserRank && (
               <button
                 className="bg-[#0C8B38] text-[#FEFAE0] max-h-[34px] px-4 flex justify-center items-center text-sm"
                 onClick={onComposeFrame}
