@@ -1,5 +1,6 @@
 "use client";
 import { Rank, UserData } from "@/app/types/types";
+import { fetchUserRankByFid, fetchUsersByFid } from "@/utils/apis";
 import {
   AuthKitProvider,
   SignInButton,
@@ -95,16 +96,14 @@ export default function Leaderboard() {
       try {
         if (!fid) return;
         setFetchingUserRank(true);
-        const executionResponse = await fetch(`/api/fetchRankForFid`, {
-          method: "POST",
-          body: JSON.stringify({ fid }),
-        });
+        const userRankString = await fetchUserRankByFid(fid.toString());
+        let userRank;
+        if (userRankString) {
+          userRank = JSON.parse(userRankString);
+        }
 
-        const executionData = await executionResponse.json();
-
-        const executionId = executionData.execution_id;
-
-        setExecutionId(executionId);
+        setLoggedInUserRank(userRank);
+        setFetchingUserRank(false);
       } catch (error) {
         console.error("error occurred while fetching user rank", error);
       }
@@ -133,21 +132,21 @@ export default function Leaderboard() {
     }
   }, [executionId]);
 
-  useEffect(() => {
-    if (!executionId && !intervalIdRef.current) return;
+  // useEffect(() => {
+  //   if (!executionId && !intervalIdRef.current) return;
 
-    fetchLoggedInUserRank();
+  //   fetchLoggedInUserRank();
 
-    //@ts-ignore
-    intervalIdRef.current = setInterval(fetchLoggedInUserRank, 10000);
+  //   //@ts-ignore
+  //   intervalIdRef.current = setInterval(fetchLoggedInUserRank, 10000);
 
-    setTimeout(() => {
-      clearInterval(intervalIdRef.current!);
-    }, 180000); // 180000 milliseconds = 3 minutes
+  //   setTimeout(() => {
+  //     clearInterval(intervalIdRef.current!);
+  //   }, 180000); // 180000 milliseconds = 3 minutes
 
-    // Clean up interval on component unmount
-    return () => clearInterval(intervalIdRef.current!);
-  }, [executionId, fetchLoggedInUserRank]);
+  //   // Clean up interval on component unmount
+  //   return () => clearInterval(intervalIdRef.current!);
+  // }, [executionId, fetchLoggedInUserRank]);
 
   //TODO: update this
   const config = {
@@ -213,7 +212,7 @@ export default function Leaderboard() {
   });
 
   const onComposeFrame = () => {
-    const url = `https://warpcast.com/~/compose?text=Go%20Higher%20%21%21%21%21%21%21&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame/${loggedInUserData?.fid}`;
+    const url = `https://warpcast.com/~/compose?text=Go%20Higher%20%21%21%21%21%21%21&embeds[]=${process.env.NEXT_PUBLIC_SITE_URL}/api/frame2/${loggedInUserData?.fid}`;
 
     window.open(url, "_blank");
   };
@@ -379,19 +378,19 @@ export default function Leaderboard() {
                       </div>
 
                       <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item.count_likes}
+                        {item?.count_likes}
                       </div>
                       <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item.count_recasts}
+                        {item?.count_recasts}
                       </div>
                       <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item.count_replies}
+                        {item?.count_replies}
                       </div>
                       <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item.total_engagement}
+                        {item?.total_engagement}
                       </div>
                       <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item.Engagement_Score.toFixed(2)}
+                        {item.Engagement_Score?.toFixed(2)}
                       </div>
                     </div>
                   );
@@ -447,19 +446,19 @@ export default function Leaderboard() {
                     </div>
                   </div>
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                    {loggedInUserRank.count_recasts}
+                    {loggedInUserRank?.count_recasts}
                   </div>
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                    {loggedInUserRank.count_likes}
+                    {loggedInUserRank?.count_likes}
                   </div>
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                    {loggedInUserRank.count_replies}
+                    {loggedInUserRank?.count_replies}
                   </div>
                   <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
-                    {loggedInUserRank.total_engagement}
+                    {loggedInUserRank?.total_engagement}
                   </div>
                   <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
-                    {loggedInUserRank.Engagement_Score.toFixed(2)}
+                    {loggedInUserRank?.Engagement_Score.toFixed(2)}
                   </div>
                 </div>
               )}

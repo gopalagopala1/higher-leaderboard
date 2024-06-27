@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 //@ts-nocheck
 
-import { fetchExecutedUserRank, fetchUsersByFid } from "@/utils/apis";
+import { fetchUserRankByFid, fetchUsersByFid } from "@/utils/apis";
 import { ImageResponse } from "next/og";
 
 export async function GET(request: Request) {
@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   const userData = JSON.parse(
     (await fetchUsersByFid([parseInt(fid)])) ?? "[]"
   )?.[0];
-  const userRank = JSON.parse((await fetchExecutedUserRank()) ?? "[]")?.[0];
+  const userRank = JSON.parse((await fetchUserRankByFid(fid)) ?? "[]")?.[0];
 
   const imageData = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-background2.png`

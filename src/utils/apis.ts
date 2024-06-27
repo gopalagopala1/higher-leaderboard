@@ -1,3 +1,23 @@
+const DUNE_API_KEY = "iOX20iJMOYuRQQ9nz77tUE0spSfLfxDf";
+
+export const fetchUserRanks = async () => {
+  try {
+    const response = await fetch(
+      `https://api.dune.com/api/v1/query/3852566/results?limit=2000`,
+      {
+        headers: {
+          "X-Dune-API-Key": DUNE_API_KEY!,
+        },
+      }
+    );
+    const data = await response.json();
+
+    return JSON.stringify(data.result.rows);
+  } catch (error) {
+    console.error("error occurred while fetching the users ranks: ", error);
+  }
+};
+
 export const executeRankByFidQuery = async (fid: string) => {
   try {
     const response = await fetch(
@@ -5,7 +25,7 @@ export const executeRankByFidQuery = async (fid: string) => {
       {
         method: "POST",
         headers: {
-          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
+          "X-Dune-API-Key": DUNE_API_KEY!,
         },
 
         body: JSON.stringify({
@@ -31,7 +51,7 @@ export const fetchRankByExecutionId = async (executionId: string) => {
       {
         method: "GET",
         headers: {
-          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
+          "X-Dune-API-Key": DUNE_API_KEY!,
         },
       }
     );
@@ -55,7 +75,7 @@ export const fetchExecutedUserRank = async () => {
       {
         method: "GET",
         headers: {
-          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
+          "X-Dune-API-Key": DUNE_API_KEY!,
         },
       }
     );
@@ -86,4 +106,22 @@ export const fetchUsersByFid = async (fids: number[]) => {
   const data = await res.json();
 
   return JSON.stringify(data.users);
+};
+
+export const fetchUserRankByFid = async (fid: string) => {
+  try {
+    const userRanksString = await fetchUserRanks();
+    const userRanks = JSON.parse(userRanksString ?? "[]");
+
+    const userRank = userRanks?.find(
+      (user: { fid: string }) => user.fid === fid
+    );
+    if (userRank) {
+      return JSON.stringify(userRank);
+    } else {
+      return undefined;
+    }
+  } catch (error) {
+    console.error("Error fetching user ranks:", error);
+  }
 };

@@ -1,18 +1,10 @@
+import { fetchUserRanks } from "@/utils/apis";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    const response = await fetch(
-      `https://api.dune.com/api/v1/query/3852566/results?limit=1000`,
-      {
-        headers: {
-          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
-        },
-      }
-    );
-    const data = await response.json();
+    const jsonData = await fetchUserRanks();
 
-    const jsonData = JSON.stringify(data.result.rows);
     return new NextResponse(jsonData, {
       status: 200,
       headers: {
@@ -20,6 +12,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
       },
     });
   } catch (err: any) {
-    return new NextResponse("Failed to fetch leaderboard", { status: 500 });
+    return new NextResponse("Failed to fetch leader board", { status: 500 });
   }
 }
