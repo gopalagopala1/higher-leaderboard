@@ -356,7 +356,7 @@ export default function Leaderboard() {
                           </div>
                         ) : (
                           <div
-                            className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline max-w-40 overflow-hidden text-ellipsis whitespace-nowrap"
+                            className="flex items-center space-x-2 justify-center md:justify-start cursor-pointer hover:underline"
                             onClick={() =>
                               navigateToUserProfile(userData.username)
                             }
@@ -372,7 +372,9 @@ export default function Leaderboard() {
                               />
                             </div>
 
-                            <div>@{userData?.username}</div>
+                            <div className="max-w-36 overflow-hidden text-ellipsis whitespace-nowrap">
+                              @{userData?.username}
+                            </div>
                           </div>
                         )}
                       </div>
