@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   ).then((res) => res.arrayBuffer());
 
   const logoImage = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/frame-logo.png`
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/higher23.png`
   ).then((res) => res.arrayBuffer());
 
   const repliesImage = await fetch(
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   ).then((res) => res.arrayBuffer());
 
   const likesImage = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/likes.png`
+    `${process.env.NEXT_PUBLIC_SITE_URL}/images/frame/heart.png`
   ).then((res) => res.arrayBuffer());
 
   const noRankImage = await fetch(
@@ -108,7 +108,7 @@ export async function GET(request: Request) {
                     Engagement Score in /higher :
                     <strong
                       style={{
-                        color: "#1F701F",
+                        color: "#5FD35F",
                         marginLeft: "2px",
                         fontFamily: "SoraBold",
                       }}
@@ -122,12 +122,12 @@ export async function GET(request: Request) {
                     Oh no! Looks like you need to go Higher :{" "}
                     <strong
                       style={{
-                        color: "#1F701F",
+                        color: "#5FD35F",
                         marginLeft: "2px",
                         fontFamily: "SoraBold",
                       }}
                     >
-                      0{" "}
+                      0
                     </strong>
                   </>
                 )}
@@ -148,9 +148,9 @@ export async function GET(request: Request) {
               <div
                 style={{
                   display: "flex",
-                  color: "#FEFAE0",
+                  color: "#1E1E1E",
                   borderRadius: "5px",
-                  backgroundColor: "#1F701F",
+                  backgroundColor: "#FEFAE0",
                   fontFamily: "SoraRegular",
                   width: "140px",
                   height: "36px",
@@ -173,9 +173,9 @@ export async function GET(request: Request) {
               <div
                 style={{
                   display: "flex",
-                  color: "#FEFAE0",
+                  color: "#1E1E1E",
                   borderRadius: "5px",
-                  backgroundColor: "#1F701F",
+                  backgroundColor: "#FEFAE0",
                   fontFamily: "SoraRegular",
                   width: "140px",
                   height: "36px",
@@ -198,9 +198,9 @@ export async function GET(request: Request) {
               <div
                 style={{
                   display: "flex",
-                  color: "#FEFAE0",
+                  color: "#1E1E1E",
                   borderRadius: "5px",
-                  backgroundColor: "#1F701F",
+                  backgroundColor: "#FEFAE0",
                   fontFamily: "SoraRegular",
                   width: "140px",
                   height: "36px",
@@ -208,7 +208,7 @@ export async function GET(request: Request) {
                   justifyContent: "center",
                 }}
               >
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", color: "black" }}>
                   <img
                     src={repliesImage}
                     width="16"

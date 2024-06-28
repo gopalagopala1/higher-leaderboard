@@ -1,6 +1,6 @@
 "use client";
 import { Rank, UserData } from "@/app/types/types";
-import { fetchUserRankByFid, fetchUsersByFid } from "@/utils/apis";
+import { fetchUserRankByFid } from "@/utils/apis";
 import {
   AuthKitProvider,
   SignInButton,
@@ -39,6 +39,7 @@ export default function Leaderboard() {
       },
       body: JSON.stringify({ fids }),
     });
+
     const data: UserData[] = await response.json();
     setUsers((prevUsers) => [...prevUsers, ...data]);
   };
