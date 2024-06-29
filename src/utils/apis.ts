@@ -114,7 +114,7 @@ export const fetchUserRankByFid = async (fid: string) => {
     const userRanks = JSON.parse(userRanksString ?? "[]");
 
     const userRank = userRanks?.find(
-      (user: { fid: string }) => user.fid === fid
+      (user: any) => String(user.fid) === String(fid)
     );
     if (userRank) {
       return JSON.stringify(userRank);
