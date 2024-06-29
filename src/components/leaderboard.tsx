@@ -194,7 +194,7 @@ export default function Leaderboard() {
     if (
       containerRef.current &&
       containerRef.current.scrollTop + containerRef.current.clientHeight >=
-        containerRef.current.scrollHeight - 5
+      containerRef.current.scrollHeight - 5
     ) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
@@ -341,10 +341,10 @@ export default function Leaderboard() {
                           {item.rank === 1
                             ? "↑"
                             : item.rank === 2
-                            ? "↑↑"
-                            : item.rank === 3
-                            ? "↑↑↑"
-                            : ""}
+                              ? "↑↑"
+                              : item.rank === 3
+                                ? "↑↑↑"
+                                : ""}
                         </span>
                       </div>
                       <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
@@ -381,19 +381,28 @@ export default function Leaderboard() {
                       </div>
 
                       <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item?.count_likes}
+                        {/* {item?.item?.count_likes}} */}
+                        {item?.count_likes >= 1000
+                          ? `${(Number(item?.count_likes) / 1000).toFixed(2)}k`
+                          : item?.count_likes}
                       </div>
                       <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item?.count_recasts}
-                      </div>
+                        {item?.count_recasts >= 1000
+                          ? `${(Number(item?.count_recasts) / 1000).toFixed(2)}k`
+                          : item?.count_recasts}                      </div>
                       <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item?.count_replies}
-                      </div>
+                        {item?.count_replies >= 1000
+                          ? `${(Number(item?.count_replies) / 1000).toFixed(2)}k`
+                          : item?.count_replies}                      </div>
                       <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item?.total_engagement}
+                        {item?.total_engagement >= 1000
+                          ? `${(Number(item?.total_engagement) / 1000).toFixed(2)}k`
+                          : item?.total_engagement}
                       </div>
                       <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
-                        {item.Engagement_Score?.toFixed(2)}
+                        {item?.Engagement_Score >= 1000
+                          ? `${(Number(item?.Engagement_Score) / 1000).toFixed(2)}k`
+                          : item?.Engagement_Score}
                       </div>
                     </div>
                   );
