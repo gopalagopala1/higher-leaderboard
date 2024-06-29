@@ -1,4 +1,4 @@
-const DUNE_API_KEY = "iOX20iJMOYuRQQ9nz77tUE0spSfLfxDf";
+const DUNE_API_KEY = "41n3jvtDvxgZ0ivna7ZwKRYSvhEsPzZi";
 
 export const fetchUserRanks = async () => {
   try {
