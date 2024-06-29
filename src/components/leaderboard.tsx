@@ -154,8 +154,8 @@ export default function Leaderboard() {
     // For a production app, replace this with an Optimism Mainnet
     // RPC URL from a provider like Alchemy or Infura.
     rpcUrl: "https://mainnet.optimism.io",
-    domain: "example.com",
-    siweUri: "https://example.com/login",
+    domain: "higherboard.vercel.app",
+    siweUri: "https://higherboard.vercel.app",
   };
 
   /**
@@ -194,7 +194,7 @@ export default function Leaderboard() {
     if (
       containerRef.current &&
       containerRef.current.scrollTop + containerRef.current.clientHeight >=
-      containerRef.current.scrollHeight - 5
+        containerRef.current.scrollHeight - 5
     ) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
@@ -341,10 +341,10 @@ export default function Leaderboard() {
                           {item.rank === 1
                             ? "↑"
                             : item.rank === 2
-                              ? "↑↑"
-                              : item.rank === 3
-                                ? "↑↑↑"
-                                : ""}
+                            ? "↑↑"
+                            : item.rank === 3
+                            ? "↑↑↑"
+                            : ""}
                         </span>
                       </div>
                       <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
@@ -388,20 +388,30 @@ export default function Leaderboard() {
                       </div>
                       <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                         {item?.count_recasts >= 1000
-                          ? `${(Number(item?.count_recasts) / 1000).toFixed(2)}k`
-                          : item?.count_recasts}                      </div>
+                          ? `${(Number(item?.count_recasts) / 1000).toFixed(
+                              2
+                            )}k`
+                          : item?.count_recasts}{" "}
+                      </div>
                       <div className="col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                         {item?.count_replies >= 1000
-                          ? `${(Number(item?.count_replies) / 1000).toFixed(2)}k`
-                          : item?.count_replies}                      </div>
+                          ? `${(Number(item?.count_replies) / 1000).toFixed(
+                              2
+                            )}k`
+                          : item?.count_replies}{" "}
+                      </div>
                       <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
                         {item?.total_engagement >= 1000
-                          ? `${(Number(item?.total_engagement) / 1000).toFixed(2)}k`
+                          ? `${(Number(item?.total_engagement) / 1000).toFixed(
+                              2
+                            )}k`
                           : item?.total_engagement}
                       </div>
                       <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
                         {item?.Engagement_Score >= 1000
-                          ? `${(Number(item?.Engagement_Score) / 1000).toFixed(2)}k`
+                          ? `${(Number(item?.Engagement_Score) / 1000).toFixed(
+                              2
+                            )}k`
                           : item?.Engagement_Score.toFixed(2)}
                       </div>
                     </div>
@@ -459,27 +469,37 @@ export default function Leaderboard() {
                   </div>
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_recasts >= 1000
-                      ? `${(Number(loggedInUserRank.count_recasts) / 1000).toFixed(2)}k`
+                      ? `${(
+                          Number(loggedInUserRank.count_recasts) / 1000
+                        ).toFixed(2)}k`
                       : loggedInUserRank.count_recasts}
                   </div>
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_likes >= 1000
-                      ? `${(Number(loggedInUserRank.count_likes) / 1000).toFixed(2)}k`
+                      ? `${(
+                          Number(loggedInUserRank.count_likes) / 1000
+                        ).toFixed(2)}k`
                       : loggedInUserRank.count_likes}
                   </div>
                   <div className="col-span-1 md:col-span-1  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.count_replies >= 1000
-                      ? `${(Number(loggedInUserRank.count_replies) / 1000).toFixed(2)}k`
+                      ? `${(
+                          Number(loggedInUserRank.count_replies) / 1000
+                        ).toFixed(2)}k`
                       : loggedInUserRank.count_replies}
                   </div>
                   <div className="col-span-1 md:col-span-2  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.total_engagement >= 1000
-                      ? `${(Number(loggedInUserRank.total_engagement) / 1000).toFixed(2)}k`
+                      ? `${(
+                          Number(loggedInUserRank.total_engagement) / 1000
+                        ).toFixed(2)}k`
                       : loggedInUserRank.total_engagement}
                   </div>
                   <div className="col-span-1 md:col-span-3  border-[#FEFAE0] border-opacity-50 py-4">
                     {loggedInUserRank.Engagement_Score >= 1000
-                      ? `${(Number(loggedInUserRank.Engagement_Score) / 1000).toFixed(2)}k`
+                      ? `${(
+                          Number(loggedInUserRank.Engagement_Score) / 1000
+                        ).toFixed(2)}k`
                       : loggedInUserRank.Engagement_Score.toFixed(2)}
                   </div>
                 </div>
