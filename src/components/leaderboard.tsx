@@ -45,19 +45,23 @@ export default function Leaderboard() {
   };
 
   useEffect(() => {
-    const fetchLeaderBoard = async () => {
-      setLoading(true);
-      const response = await fetch(`/api/fetchLeaderBoard`, {
-        method: "GET",
-      });
+    try {
+      const fetchLeaderBoard = async () => {
+        setLoading(true);
+        const response = await fetch(`/api/fetchLeaderBoard`, {
+          method: "GET",
+        });
 
-      const data: Rank[] = await response.json();
-      setLeadData(data);
-      setLoading(false);
-    };
+        const data: Rank[] = await response.json();
+        setLeadData(data);
+        setLoading(false);
+      };
 
-    if (leadData.length === 0) {
-      fetchLeaderBoard();
+      if (leadData.length === 0) {
+        fetchLeaderBoard();
+      }
+    } catch (error) {
+      console.error("Error occurred while fetching leaderboard", error);
     }
   }, [leadData.length]);
 
