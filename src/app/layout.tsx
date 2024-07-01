@@ -7,7 +7,20 @@ const kreadonBold = localFont({ src: "../../public/fonts/Kreadon-Bold.ttf" });
 export const metadata: Metadata = {
   title: "Higherboard",
   description:
-    "Leaderboard to display user engagement on higher farcaster channel",
+    "Engagement tracking and recognition in higher community on warpcast",
+  applicationName: "higerboard",
+  authors: [
+    { name: "Gopala", url: "https://warpcast.com/gopala" },
+    { name: "Tushar", url: "https://warpcast.com/tusharvrma" },
+    { name: "Rachna", url: "https://warpcast.com/rachna" },
+  ],
+  keywords: [
+    "higherboard",
+    "higher engagement tracking",
+    "higher channel",
+    "higher warpcast",
+  ],
+  openGraph: { title: "higherboard", images: "/higherboard.png" },
 };
 
 export default function RootLayout({
