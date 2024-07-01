@@ -20,7 +20,24 @@ export const metadata: Metadata = {
     "higher channel",
     "higher warpcast",
   ],
-  openGraph: { title: "higherboard", images: "/higherboard.png" },
+  openGraph: {
+    title: "higherboard",
+    description:
+      "Engagement tracking and recognition in higher community on warpcast.",
+    url: "https://www.higherboard.xyz/",
+    siteName: "Higherboard",
+    type: "website",
+    images: [
+      {
+        url: "https://github.com/gopalagopala1/higher-leaderboard/blob/main/public/higherboard.png",
+        secureUrl:
+          "https://github.com/gopalagopala1/higher-leaderboard/blob/main/public/higherboard.png",
+        width: 1200,
+        height: 630,
+        alt: "Higherboard Preview Image",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
