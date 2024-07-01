@@ -1,9 +1,9 @@
-const DUNE_API_KEY = "41n3jvtDvxgZ0ivna7ZwKRYSvhEsPzZi";
+const DUNE_API_KEY = "dEuNzq67jVrp7TjAgzrqhimsH8ys7l5q";
 
 export const fetchUserRanks = async () => {
   try {
     const response = await fetch(
-      `https://api.dune.com/api/v1/query/3852566/results?limit=2000`,
+      `https://api.dune.com/api/v1/query/3886574/results?limit=2000`,
       {
         headers: {
           "X-Dune-API-Key": DUNE_API_KEY!,
