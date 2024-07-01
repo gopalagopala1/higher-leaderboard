@@ -246,10 +246,6 @@ export default function Leaderboard() {
           </div>
         </div>
 
-        <div className={`flex justify-end ${kreadonDemi.className} text-xs`}>
-          Ranks are calculated based on engagement score
-        </div>
-
         <div
           className={`grid grid-cols-1 md:grid-cols-11 gap-0 bg-[#0C8B38]  text-center border border-[#FEFAE0] ${kreadonDemi.className}`}
         >
