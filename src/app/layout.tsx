@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://github.com/gopalagopala1/higher-leaderboard/blob/main/public/higherboard.png",
+        url: "https://raw.githubusercontent.com/gopalagopala1/higher-leaderboard/main/public/higherboard.png",
         secureUrl:
-          "https://github.com/gopalagopala1/higher-leaderboard/blob/main/public/higherboard.png",
+          "https://raw.githubusercontent.com/gopalagopala1/higher-leaderboard/main/public/higherboard.png",
         width: 1200,
         height: 630,
         alt: "Higherboard Preview Image",
