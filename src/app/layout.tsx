@@ -5,9 +5,8 @@ import "./globals.css";
 const kreadonBold = localFont({ src: "../../public/fonts/Kreadon-Bold.ttf" });
 
 export const metadata: Metadata = {
-  title: "Higherboard",
-  description:
-    "Engagement tracking and recognition in higher community on warpcast",
+  title: "Engagement Leaderboard for /higher",
+  description: "Check where you're at inside the community based on engagement",
   applicationName: "higerboard",
   authors: [
     { name: "Gopala", url: "https://warpcast.com/gopala" },
@@ -29,8 +28,8 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://www.higherboard.xyz/higherboard.png",
-        secureUrl: "https://www.higherboard.xyz/higherboard.png",
+        url: "https://www.higherboard.xyz/higher_preview.png",
+        secureUrl: "https://www.higherboard.xyz/higher_preview.png",
         width: 1200,
         height: 630,
         alt: "Higherboard Preview Image",
