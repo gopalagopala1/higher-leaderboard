@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     "higher warpcast",
   ],
   openGraph: {
-    title: "higherboard",
+    title: "Higherboard: Amplify Your Community Influence",
     description:
-      "Engagement tracking and recognition in higher community on warpcast.",
+      "Dive deep into your Warpcast community interactions with Higherboard! Our platform consolidates all reaction data in one place, offering a customized leaderboard to see your rank based on user reactions to your casts. Track engagement, share achievements, and foster recognition and motivation within the community. Explore peer profiles, interact with their content, and build stronger connections. Stay informed, engaged, and recognized for your contributions with Higherboard, your ultimate community engagement tracker.",
     url: "https://www.higherboard.xyz/",
     siteName: "Higherboard",
     type: "website",
