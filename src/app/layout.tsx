@@ -5,8 +5,9 @@ import "./globals.css";
 const kreadonBold = localFont({ src: "../../public/fonts/Kreadon-Bold.ttf" });
 
 export const metadata: Metadata = {
-  title: "Engagement Leaderboard for /higher",
-  description: "Check where you're at inside the community based on engagement",
+  title: "Higherboard",
+  description:
+    "Engagement tracking and recognition in higher community on warpcast",
   applicationName: "higerboard",
   authors: [
     { name: "Gopala", url: "https://warpcast.com/gopala" },
@@ -20,16 +21,16 @@ export const metadata: Metadata = {
     "higher warpcast",
   ],
   openGraph: {
-    title: "Higherboard: Amplify Your Community Influence",
+    title: "Engagement Leaderboard for /higher",
     description:
-      "Dive deep into your Warpcast community interactions with Higherboard! Our platform consolidates all reaction data in one place, offering a customized leaderboard to see your rank based on user reactions to your casts. Track engagement, share achievements, and foster recognition and motivation within the community. Explore peer profiles, interact with their content, and build stronger connections. Stay informed, engaged, and recognized for your contributions with Higherboard, your ultimate community engagement tracker.",
+      "Check where you're at inside the community based on engagement.",
     url: "https://www.higherboard.xyz/",
     siteName: "Higherboard",
     type: "website",
     images: [
       {
-        url: "https://www.higherboard.xyz/higher_preview.png",
-        secureUrl: "https://www.higherboard.xyz/higher_preview.png",
+        url: "https://www.higherboard.xyz/higherboard.png",
+        secureUrl: "https://www.higherboard.xyz/higherboard.png",
         width: 1200,
         height: 630,
         alt: "Higherboard Preview Image",
