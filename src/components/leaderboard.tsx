@@ -257,7 +257,9 @@ export default function Leaderboard() {
             Rank
           </div>
           <div className="col-span-1 md:col-span-2 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6">
-            <div className="flex justify-start ml-4">User</div>
+            <div className="flex justify-center md:justify-start md:ml-4">
+              User
+            </div>
           </div>
 
           <div className="col-span-1 md:col-span-1 md: py-2 md:py-4 border-[#FEFAE0] px-2 lg:px-6 ">

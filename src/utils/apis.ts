@@ -1,12 +1,11 @@
-const DUNE_API_KEY = "dEuNzq67jVrp7TjAgzrqhimsH8ys7l5q";
-
+"use server";
 export const fetchUserRanks = async () => {
   try {
     const response = await fetch(
       `https://api.dune.com/api/v1/query/3886574/results?limit=2000`,
       {
         headers: {
-          "X-Dune-API-Key": DUNE_API_KEY!,
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
         },
       }
     );
@@ -25,7 +24,7 @@ export const executeRankByFidQuery = async (fid: string) => {
       {
         method: "POST",
         headers: {
-          "X-Dune-API-Key": DUNE_API_KEY!,
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
         },
 
         body: JSON.stringify({
@@ -51,7 +50,7 @@ export const fetchRankByExecutionId = async (executionId: string) => {
       {
         method: "GET",
         headers: {
-          "X-Dune-API-Key": DUNE_API_KEY!,
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
         },
       }
     );
@@ -75,7 +74,7 @@ export const fetchExecutedUserRank = async () => {
       {
         method: "GET",
         headers: {
-          "X-Dune-API-Key": DUNE_API_KEY!,
+          "X-Dune-API-Key": process.env.DUNE_API_KEY!,
         },
       }
     );
