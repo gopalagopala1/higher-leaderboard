@@ -92,7 +92,7 @@ export const fetchExecutedUserRank = async () => {
 };
 
 export const fetchUsersByFid = async (fids: number[]) => {
-  const fidsString = fids.join("%2C%20");
+  const fidsString = fids.join("%2C");
   const res = await fetch(
     `https://api.neynar.com/v2/farcaster/user/bulk?fids=${fidsString}`,
     {
